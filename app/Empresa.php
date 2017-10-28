@@ -13,4 +13,14 @@ class Empresa extends Model
     protected $fillable = ['rut', 'razon_social', 'celular', 'telefono', 'email', 'direccion', 'ciudad', 'fax', 'pais', 'web'];
 
     public $timestamps = false;
+
+
+    public function cliente () {
+    	return $this->belongsTo('App\Cliente');
+    }
+
+
+    public function proveedor () {
+    	return $this->belongsTo('App\Proveedor');
+    }
 }

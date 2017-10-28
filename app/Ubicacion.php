@@ -13,4 +13,9 @@ class Ubicacion extends Model
     protected $fillable = ['direccion', 'fecha_fin'];
 
     public $timestamps = false;
+
+
+    public function maquinaria () {
+    	return $this->belongsTo('App\Maquinaria');
+    }
 }

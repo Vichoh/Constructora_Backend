@@ -13,4 +13,16 @@ class Rendimiento extends Model
     protected $fillable = ['descripcion'];
 
     public $timestamps = false;
+
+    public function maquinaria () {
+    	return $this->belongsTo('App\Maquinaria');
+    }
+
+    public function material () {
+    	return $this->belongsTo('App\Material');
+    }
+
+    public function trabajador () {
+    	return $this->belongsTo('App\Trabajador');
+    } 
 }

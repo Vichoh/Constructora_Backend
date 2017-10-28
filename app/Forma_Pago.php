@@ -13,4 +13,9 @@ class Forma_Pago extends Model
     protected $fillable = ['detalle'];
 
     public $timestamps = false;
+    
+
+    public function presupuesto () {
+    	return $this->belongsTo('App\Presupuesto');
+    }
 }

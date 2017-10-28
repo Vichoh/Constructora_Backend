@@ -13,4 +13,14 @@ class Vendedor extends Model
     protected $fillable = ['descripcion'];
 
     public $timestamps = false;
+
+
+    public function persona () {
+
+    	return $this->hasOne('App\Persona');
+    }
+
+    public function proveedor () {
+    	return $this->belongsTo('App\Proveedor');
+    }
 }

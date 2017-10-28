@@ -13,4 +13,9 @@ class Tipo_Obra extends Model
     protected $fillable = ['descripcion'];
 
     public $timestamps = false;
+
+
+     public function obra () {
+    	return $this->belongsTo('App\Obra');
+    }
 }

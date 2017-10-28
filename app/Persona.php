@@ -13,4 +13,16 @@ class Persona extends Model
     protected $fillable = ['rut', 'nombre', 'telefono', 'mail', 'direccion', 'ciudad'];
 
     public $timestamps = false;
+
+    public function trabajador () {
+    	return $this->belongsTo('App\Trabajador');
+    } 
+
+    public function usuario () {
+    	return $this->belongsTo('App\Usuario');
+    } 
+
+    public function vendedor () {
+    	return $this->belongsTo('App\Vendedor');
+    } 
 }

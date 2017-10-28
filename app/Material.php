@@ -10,7 +10,13 @@ class Material extends Model
 
     protected $primarykey = 'id';
 
-    protected $fillable = ['nombre', 'marca', 'valor', 'stock', 'descripcion', 'certificacion', 'observacion'];
+    protected $fillable = ['nombre', 'marca', 'valor', 'stock', 'descripcion', 'certificacion', 'observacion', 'rendimiento_id'];
 
     public $timestamps = false;
+    
+
+    public function rendimiento(){
+
+    	return $this->hasMany('App\Rendimiento');
+    }
 }

@@ -10,7 +10,16 @@ class Maquinaria extends Model
 
     protected $primarykey = 'id';
 
-    protected $fillable = ['identificacion', 'descripcion', 'marca', 'modelo', 'numero_serie', 'patente', 'anho', 'estado'];
+    protected $fillable = ['identificacion', 'descripcion', 'marca', 'modelo', 'numero_serie', 'patente', 'anho', 'estado', 'ubicacion_id', 'rendimiento_id'];
 
     public $timestamps = false;
+
+
+    public function ubicacion () {
+    	return $this->hasMany('App\Ubicacion');
+    }
+
+    public function rendimiento () {
+    	return $this->hasMany('App\Rendimiento');
+    }
 }

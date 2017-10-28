@@ -22,4 +22,10 @@ class Usuario extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+
+
+    public function persona () {
+        return $this->hasOne('App\Persona');
+    }
 }

@@ -13,4 +13,9 @@ class Area extends Model
     protected $fillable = ['descripcion'];
 
     public $timestamps = false;
+
+
+    public function trabajador () {
+    	return $this->belongsTo('App\Trabajador');
+    } 
 }
