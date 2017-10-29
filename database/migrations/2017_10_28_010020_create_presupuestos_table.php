@@ -25,7 +25,7 @@ class CreatePresupuestosTable extends Migration
             $table->integer('forma_pago_id')->unsigned();
 
             $table->foreign('obras_id')->references('id')->on('obras')->onDelete('cascade');
-            $table->foreign('forma_pago_id')->references('id')->('formas_pagos')->onDelete('cascade');
+            $table->foreign('forma_pago_id')->references('id')->on('formas_pagos')->onDelete('cascade');
         });
     }
 

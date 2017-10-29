@@ -1,7 +1,7 @@
 <?php
 namespace App;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Foundation\Auth\Usuario as Authenticatable;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class Usuario extends Authenticatable
 {
@@ -11,8 +11,15 @@ class Usuario extends Authenticatable
      *
      * @var array
      */
+
+
+    protected $table = 'usuarios';
+
+    protected $primaryKey = 'id';
+
     protected $fillable = [
-        'password'
+        'password','confirmation_code', 'confirmed', 'usuario',
+
     ];
     /**
      * The attributes that should be hidden for arrays.

@@ -10,7 +10,7 @@ class Persona extends Model
 
     protected $primarykey = 'id';
 
-    protected $fillable = ['rut', 'nombre', 'telefono', 'mail', 'direccion', 'ciudad'];
+    protected $fillable = ['rut', 'nombre', 'telefono', 'email', 'direccion', 'ciudad'];
 
     public $timestamps = false;
 
@@ -19,7 +19,7 @@ class Persona extends Model
     } 
 
     public function usuario () {
-    	return $this->belongsTo('App\Usuario');
+    	return $this->belongsTo('App\User');
     } 
 
     public function vendedor () {

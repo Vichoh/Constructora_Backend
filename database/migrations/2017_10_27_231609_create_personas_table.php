@@ -18,7 +18,7 @@ class CreatePersonasTable extends Migration
             $table->string('rut');
             $table->string('nombre');
             $table->string('telefono');
-            $table->string('mail');
+            $table->string('email');
             $table->string('direccion');
             $table->string('ciudad');
         });
