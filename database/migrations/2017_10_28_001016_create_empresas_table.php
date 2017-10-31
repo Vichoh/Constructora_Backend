@@ -25,6 +25,7 @@ class CreateEmpresasTable extends Migration
             $table->string('email');
             $table->string('web');
             $table->string('pais');
+            $table->string('observacion')
         });
     }
 

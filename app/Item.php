@@ -15,7 +15,19 @@ class Item extends Model
     public $timestamps = false;
 
 
-    public function partida () {
-    	return $this->hasMany('App\Partida');
+    public function partidas () {
+    	return $this->belongsTo('App\Partida');
+    }
+
+    public function maquinaria_obra () {
+    	return $this->hasMany('App\Maquinaria_Obra');
+    }
+
+    public function material_obra () {
+    	return $this->hasMany('App\Material_Obra');
+    }
+
+    public function trabajador_obra () {
+    	return $this->hasMany('App\Trabajador_Obra');
     }
 }

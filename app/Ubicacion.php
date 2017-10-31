@@ -16,6 +16,6 @@ class Ubicacion extends Model
 
 
     public function maquinaria () {
-    	return $this->belongsTo('App\Maquinaria');
+    	return $this->hasMany('App\Maquinaria');
     }
 }

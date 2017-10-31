@@ -15,11 +15,11 @@ class Cliente extends Model
     public $timestamps = false;
 
 
-    public  function empresa() {
-    	return $this->hasOne('App\Empresa');
+    public  function empresa () {
+    	return $this->belongsTo('App\Empresa');
     }
 
-    public function obra () {
-    	return $this->belongsTo('App\Obra');
+    public function obras () {
+    	return $this->hasMany('App\Obra');
     }
 }

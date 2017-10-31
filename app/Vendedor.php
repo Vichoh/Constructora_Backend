@@ -10,7 +10,7 @@ class Vendedor extends Model
 
     protected $primarykey = 'id';
 
-    protected $fillable = ['descripcion'];
+    protected $fillable = ['descripcion', 'proveedor_id'];
 
     public $timestamps = false;
 

@@ -15,14 +15,14 @@ class Rendimiento extends Model
     public $timestamps = false;
 
     public function maquinaria () {
-    	return $this->belongsTo('App\Maquinaria');
+    	return $this->hasMany('App\Maquinaria');
     }
 
     public function material () {
-    	return $this->belongsTo('App\Material');
+    	return $this->hasMany('App\Material');
     }
 
     public function trabajador () {
-    	return $this->belongsTo('App\Trabajador');
+    	return $this->hasMany('App\Trabajador');
     } 
 }

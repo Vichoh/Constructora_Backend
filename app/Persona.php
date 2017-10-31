@@ -15,14 +15,14 @@ class Persona extends Model
     public $timestamps = false;
 
     public function trabajador () {
-    	return $this->belongsTo('App\Trabajador');
+    	return $this->hasMany('App\Trabajador');
     } 
 
     public function usuario () {
-    	return $this->belongsTo('App\User');
+    	return $this->hasMany('App\User');
     } 
 
     public function vendedor () {
-    	return $this->belongsTo('App\Vendedor');
+    	return $this->hasMany('App\Vendedor');
     } 
 }

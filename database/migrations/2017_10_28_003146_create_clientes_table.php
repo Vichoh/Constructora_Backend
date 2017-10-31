@@ -15,7 +15,6 @@ class CreateClientesTable extends Migration
     {
         Schema::create('clientes', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('observacion');
             $table->integer('empresa_id')->unsigned();
 
             $table->foreign('empresa_id')->references('id')->on('empresas');  

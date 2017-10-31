@@ -16,6 +16,6 @@ class Tipo_Obra extends Model
 
 
      public function obra () {
-    	return $this->belongsTo('App\Obra');
+    	return $this->hasMany('App\Obra');
     }
 }

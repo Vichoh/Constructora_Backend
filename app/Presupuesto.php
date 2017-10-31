@@ -15,12 +15,12 @@ class Presupuesto extends Model
     public $timestamps = false;
     
 
-    public function obra () {
-    	return $this->hasMany('App\Obra');
+    public function obras () {
+    	return $this->belongsTo('App\Obra');
     }
 
-    public function forma_pago () {
+    public function formas_pago () {
 
-    	return $this->hasMany('App\Forma_Pago');
+    	return $this->belongsTo('App\Forma_Pago');
     }
 }

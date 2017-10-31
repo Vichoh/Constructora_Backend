@@ -10,17 +10,17 @@ class Empresa extends Model
 
     protected $primarykey = 'id';
 
-    protected $fillable = ['rut', 'razon_social', 'celular', 'telefono', 'email', 'direccion', 'ciudad', 'fax', 'pais', 'web'];
+    protected $fillable = ['rut', 'razon_social', 'celular', 'telefono', 'email', 'direccion', 'ciudad', 'fax', 'pais', 'web', 'observacion'];
 
     public $timestamps = false;
 
 
-    public function cliente () {
-    	return $this->belongsTo('App\Cliente');
+    public function clientes () {
+    	return $this->hasMany('App\Cliente');
     }
 
 
-    public function proveedor () {
-    	return $this->belongsTo('App\Proveedor');
+    public function proveedores () {
+    	return $this->hasMany('App\Proveedor');
     }
 }

@@ -14,15 +14,15 @@ class Obra extends Model
 
     public $timestamps = false;
 
-    public function cliente () {
-    	return $this->hasMany('App\Cliente');
+    public function clientes () {
+    	return $this->belongsTo('App\Cliente');
     }
 
-    public function tipo_Obra () {
-    	return $this->hasMany('App\Tipo_Obra');
+    public function tipos_Obra () {
+    	return $this->belongsTo('App\Tipo_Obra');
     }
 
     public function presupuesto () {
-    	return $this->belongsTo('App\Presupuesto');
+    	return $this->hasMany('App\Presupuesto');
     }
 }

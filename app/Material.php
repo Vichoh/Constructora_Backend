@@ -15,8 +15,16 @@ class Material extends Model
     public $timestamps = false;
     
 
-    public function rendimiento(){
+    public function rendimientos(){
 
-    	return $this->hasMany('App\Rendimiento');
+    	return $this->belongsTo('App\Rendimiento');
+    }
+
+    public function material_obra () {
+    	return $this->hasMany('App\Material_Obra');
+    }
+
+    public function proveedores () {
+    	return $this->belongsToMany('App\Proveedor');
     }
 }

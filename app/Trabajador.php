@@ -20,11 +20,15 @@ class Trabajador extends Model
     	return $this->hasOne('App\Persona');
     }
 
-    public function rendimiento () {
-    	return $this->hasMany('App\Rendimiento');
+    public function rendimientos () {
+    	return $this->belongsTo('App\Rendimiento');
     }
 
-    public function area () {
-    	return $this->hasMany('App\Area');
+    public function areas () {
+    	return $this->belongsTo('App\Area');
+    }
+
+    public function trabajador_obra () {
+        return $this->hasMany('App\Trabajador_Obra');
     }
 }

@@ -10,18 +10,22 @@ class Proveedor extends Model
 
     protected $primarykey = 'id';
 
-    protected $fillable = ['observacion', 'vendedor_id', 'empresa_id'];
+    protected $fillable = ['observacion',  'empresa_id'];
 
     public $timestamps = false;
 
 
-    public function vendedor () {
+    public function vendedores () {
 
-    	return $this->hasOne('App\Vendedor');
+    	return $this->hasMany('App\Vendedor');
     }
 
     public function empresa () {
 
-    	return $this->hasOne('App\Empresa');
+    	return $this->belongsTo('App\Empresa');
+    }
+
+    public function materiales () {
+        return $this->belongsToMany('App\Material');
     }
 }

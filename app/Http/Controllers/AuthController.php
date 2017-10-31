@@ -23,10 +23,10 @@ class AuthController extends Controller
     }
  
 
-    return response()->json(compact('token')); 
-   //$users = Usuario::where('password', '=', $request->password, 'AND', 'persona_id', '=', $request->persona_id)->first();
+    return response()->json(['token' => 'Bearer ' . $token]); 
+  /* $users = Usuario::where('password', '=', $request->password, 'AND', 'usuario', '=', $request->usuario)->first();
 
-    /*if ($users->confirmed == 1) {
+    if ($users->confirmed == 1) {
       // all good so return the token
       return response()->json(compact('token'));  
     } else {

@@ -15,11 +15,16 @@ class Maquinaria extends Model
     public $timestamps = false;
 
 
-    public function ubicacion () {
-    	return $this->hasMany('App\Ubicacion');
+    public function ubicaciones () {
+    	return $this->belongsTo('App\Ubicacion');
     }
 
-    public function rendimiento () {
-    	return $this->hasMany('App\Rendimiento');
+    public function rendimientos () {
+    	return $this->belongsTo('App\Rendimiento');
     }
+
+    public function maquinaria_obra () {
+        return $this->hasMany('App\Maquinaria_Obra');
+    }
+
 }

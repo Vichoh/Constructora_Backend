@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateVendedoresTable extends Migration
+class CreateMaterialProveedorTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,13 @@ class CreateVendedoresTable extends Migration
      */
     public function up()
     {
-        Schema::create('vendedores', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('descripcion');
-            $table->integer('persona_id')->unsigned();
+        Schema::create('material_proveedor', function (Blueprint $table) {
+            $table->integer('material_id')->unsigned();
             $table->integer('proveedor_id')->unsigned();
 
-            $table->foreign('persona_id')->references('id')->on('personas')->onDelete('cascade');  
+            $table->foreign('material_id')->references('id')->on('materiales');
             $table->foreign('proveedor_id')->references('id')->on('proveedores');
+
         });
     }
 
@@ -31,6 +30,6 @@ class CreateVendedoresTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('vendedores');
+        Schema::dropIfExists('material_proveedor');
     }
 }

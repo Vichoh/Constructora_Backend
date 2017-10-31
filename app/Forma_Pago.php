@@ -16,6 +16,6 @@ class Forma_Pago extends Model
     
 
     public function presupuesto () {
-    	return $this->belongsTo('App\Presupuesto');
+    	return $this->hasMany('App\Presupuesto');
     }
 }
