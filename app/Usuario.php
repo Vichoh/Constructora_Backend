@@ -18,7 +18,7 @@ class Usuario extends Authenticatable
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'password','confirmation_code', 'confirmed', 'usuario',
+        'password','confirmation_code', 'confirmed', 'usuario', 'persona_id'
 
     ];
     /**
@@ -33,6 +33,6 @@ class Usuario extends Authenticatable
 
 
     public function persona () {
-        return $this->hasOne('App\Persona');
+        return $this->belongsTo('App\Persona');
     }
 }

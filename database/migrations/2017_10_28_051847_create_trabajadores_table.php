@@ -15,7 +15,7 @@ class CreateTrabajadoresTable extends Migration
     {
         Schema::create('trabajadores', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('sueldo');
+            $table->double('sueldo');
             $table->date('fecha_ini');
             $table->string('estado');
             $table->integer('rendimiento_id');

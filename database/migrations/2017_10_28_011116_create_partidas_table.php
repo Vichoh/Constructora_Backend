@@ -16,10 +16,10 @@ class CreatePartidasTable extends Migration
         Schema::create('partidas', function (Blueprint $table) {
             $table->increments('id');
             $table->string('detalle');
-            $table->integer('valor_neto');
-            $table->integer('iva');
-            $table->integer('total_final');
-            $table->integer('descripcion');
+            $table->double('valor_neto', 8 ,2);
+            $table->double('iva', 8, 2);
+            $table->double('total_final', 8, 2);
+            $table->text('descripcion');
             $table->date('dia_ini');
             $table->date('dia_fin');
             $table->integer('presupuesto_id');

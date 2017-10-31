@@ -10,14 +10,14 @@ class Trabajador extends Model
 
     protected $primarykey = 'id';
 
-    protected $fillable = ['sueldo', ' fecha_ini', 'estado'];
+    protected $fillable = ['sueldo', ' fecha_ini', 'estado', 'persona_id', 'rendimiento_id', 'area_id'];
 
     public $timestamps = false;
 
 
 
     public function persona () {
-    	return $this->hasOne('App\Persona');
+    	return $this->belongsTo('App\Persona');
     }
 
     public function rendimientos () {

@@ -10,14 +10,14 @@ class Vendedor extends Model
 
     protected $primarykey = 'id';
 
-    protected $fillable = ['descripcion', 'proveedor_id'];
+    protected $fillable = ['descripcion', 'proveedor_id', 'persona_id'];
 
     public $timestamps = false;
 
 
     public function persona () {
 
-    	return $this->hasOne('App\Persona');
+    	return $this->belongsTo('App\Persona');
     }
 
     public function proveedor () {

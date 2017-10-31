@@ -17,9 +17,8 @@ class CreatePresupuestosTable extends Migration
             $table->increments('id');
             $table->integer('vigencia');
             $table->string('estado');
-            $table->string('descripcion');
+            $table->text('descripcion');
             $table->date('fecha_envio');
-            $table->string('clasificacion');
             $table->string('periodo_control');
             $table->integer('obras_id')->unsigend();
             $table->integer('forma_pago_id')->unsigned();

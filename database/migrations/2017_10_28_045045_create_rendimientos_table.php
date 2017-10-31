@@ -15,7 +15,7 @@ class CreateRendimientosTable extends Migration
     {
         Schema::create('rendimientos', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('descripcion');
+            $table->text('descripcion');
         });
     }
 

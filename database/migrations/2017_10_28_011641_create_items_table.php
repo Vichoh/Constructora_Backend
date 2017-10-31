@@ -16,8 +16,8 @@ class CreateItemsTable extends Migration
         Schema::create('items', function (Blueprint $table) {
             $table->increments('id');
             $table->string('detalle');
-            $table->integer('cantidad');
-            $table->integer('total');
+            $table->double('cantidad', 8, 2);
+            $table->double('total', 8 ,2);
             $table->string('unidad');
             $table->integer('partida_id');
 

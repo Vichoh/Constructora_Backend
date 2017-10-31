@@ -15,7 +15,7 @@ class CreateVendedoresTable extends Migration
     {
         Schema::create('vendedores', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('descripcion');
+            $table->text('descripcion');
             $table->integer('persona_id')->unsigned();
             $table->integer('proveedor_id')->unsigned();
 

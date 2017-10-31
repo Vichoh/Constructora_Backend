@@ -17,9 +17,9 @@ class CreateMaterialesTable extends Migration
             $table->increments('id');
             $table->string('nombre');
             $table->string('marca');
-            $table->integer('valor');
+            $table->double('valor');
             $table->integer('stock');
-            $table->string('descripcion');
+            $table->text('descripcion');
             $table->string('certificacion');
             $table->string('observacion');
             $table->integer('rendimiento_id');

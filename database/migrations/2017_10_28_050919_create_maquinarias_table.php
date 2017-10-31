@@ -16,7 +16,7 @@ class CreateMaquinariasTable extends Migration
         Schema::create('maquinarias', function (Blueprint $table) {
             $table->increments('id');
             $table->string('identificacion');
-            $table->string('descripcion');
+            $table->text('descripcion');
             $table->string('marca');
             $table->string('modelo');
             $table->integer('numero_serie');

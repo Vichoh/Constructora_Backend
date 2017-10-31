@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class DatabaseSeeder extends Seeder
+class Forma_PagoTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,7 +11,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-    	$this->call(PersonaTableSeeder::class);
-        $this->call(UsuarioTableSeeder::class);
+        DB::table('formas_pagos')->insert([
+        'detalle' => 'Anticipo + Pago de saldo a 30 días',
+       
     }
 }

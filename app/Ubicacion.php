@@ -15,7 +15,7 @@ class Ubicacion extends Model
     public $timestamps = false;
 
 
-    public function maquinaria () {
+    public function maquinarias () {
     	return $this->hasMany('App\Maquinaria');
     }
 }
