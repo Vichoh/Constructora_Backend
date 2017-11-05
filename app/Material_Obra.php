@@ -14,11 +14,11 @@ class Material_Obra extends Model
 
     public $timestamps = false;
 
-    public function materiales(){
+    public function materiale(){
     	return $this->belongsTo('App\Material');
     }
 
-    public function items(){
+    public function item(){
     	return $this->belongsTo('App\Item');
     }
 }

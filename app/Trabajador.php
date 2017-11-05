@@ -10,7 +10,7 @@ class Trabajador extends Model
 
     protected $primarykey = 'id';
 
-    protected $fillable = ['sueldo', ' fecha_ini', 'estado', 'persona_id', 'rendimiento_id', 'area_id'];
+    protected $fillable = ['sueldo', 'fecha_ini', 'estado', 'persona_id', 'rendimiento_id', 'area_id'];
 
     public $timestamps = false;
 
@@ -20,15 +20,15 @@ class Trabajador extends Model
     	return $this->belongsTo('App\Persona');
     }
 
-    public function rendimientos () {
+    public function rendimiento () {
     	return $this->belongsTo('App\Rendimiento');
     }
 
-    public function areas () {
+    public function area () {
     	return $this->belongsTo('App\Area');
     }
 
-    public function trabajador_obra () {
+    public function trabajadores_obra () {
         return $this->hasMany('App\Trabajador_Obra');
     }
 }

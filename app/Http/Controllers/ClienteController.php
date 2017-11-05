@@ -35,7 +35,8 @@ class ClienteController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Cliente::create($request->all());
+        return ['create' => true];
     }
 
     /**
@@ -46,7 +47,7 @@ class ClienteController extends Controller
      */
     public function show($id)
     {
-        //
+        return Cliente::find($id);
     }
 
     /**
@@ -57,7 +58,7 @@ class ClienteController extends Controller
      */
     public function edit($id)
     {
-        //
+
     }
 
     /**
@@ -69,7 +70,9 @@ class ClienteController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $cliente = Cliente::find($id);
+        $cliente->update($request->all());
+        return ['update' => true];
     }
 
     /**
@@ -80,6 +83,7 @@ class ClienteController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Cliente::destroy($id);
+        return ['delete' => true];
     }
 }

@@ -35,7 +35,9 @@ class AreaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Area::create($request->all());
+        return ['created' => true];
+
     }
 
     /**
@@ -46,7 +48,7 @@ class AreaController extends Controller
      */
     public function show($id)
     {
-        //
+        return Area::find($id);
     }
 
     /**
@@ -69,7 +71,9 @@ class AreaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $area = Area::find($id);
+        $area->update($request->all());
+        return ['update' => true];
     }
 
     /**
@@ -80,6 +84,8 @@ class AreaController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Area::destroy($id);
+        return ['deleted' => true];
+
     }
 }

@@ -17,17 +17,19 @@ class CreateMaquinariasTable extends Migration
             $table->increments('id');
             $table->string('identificacion');
             $table->text('descripcion');
-            $table->string('marca');
-            $table->string('modelo');
             $table->integer('numero_serie');
             $table->string('patente');
             $table->integer('anho');
-            $table->string('estado');
             $table->integer('ubicacion_id');
             $table->integer('rendimiento_id');
+            $table->integer('modelo_id');
+            $table->integer('marca_id');
 
             $table->foreign('ubicacion_id')->references('id')->on('ubicaciones')->onDelete('cascade');
-            $table->foreign('rendimiento_id')->references('id')->on('rendimientos')->onDelete('cascade');
+            $table->foreign('rendimiento_id')->references('id')->on('rendimientos');
+            $table->foreign('modelo_id')->references('id')->on('modelos');
+            $table->foreign('marca_id')->references('id')->on('marcas');
+
         });
     }
 

@@ -14,11 +14,11 @@ class Maquinaria_Obra extends Model
 
     public $timestamps = false;
 
-    public function maquinarias(){
+    public function maquinaria () {
     	return $this->belongsTo('App\Maquinaria');
     }
 
-    public function items(){
+    public function item () {
     	return $this->belongsTo('App\Item');
     }
 }

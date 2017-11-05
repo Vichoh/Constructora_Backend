@@ -15,7 +15,7 @@ class Area extends Model
     public $timestamps = false;
 
 
-    public function trabajador () {
+    public function trabajadores () {
     	return $this->hasMany('App\Trabajador');
     } 
 }

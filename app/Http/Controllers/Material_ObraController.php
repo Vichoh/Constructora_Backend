@@ -35,7 +35,8 @@ class Material_ObraController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Material_Obra::create($request->all());
+        return ['create' => true];
     }
 
     /**
@@ -46,7 +47,7 @@ class Material_ObraController extends Controller
      */
     public function show($id)
     {
-        //
+        return Material_Obra::find($id);
     }
 
     /**
@@ -69,7 +70,9 @@ class Material_ObraController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $material_obra = Material_Obra::find($id);
+        $material_obra->update($request->all());
+        return ['update' => true];
     }
 
     /**
@@ -80,6 +83,7 @@ class Material_ObraController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Material_Obra::destroy($id);
+        return ['delete' => true];
     }
 }

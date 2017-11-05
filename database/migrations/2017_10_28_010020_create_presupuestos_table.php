@@ -16,15 +16,16 @@ class CreatePresupuestosTable extends Migration
         Schema::create('presupuestos', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('vigencia');
-            $table->string('estado');
             $table->text('descripcion');
             $table->date('fecha_envio');
             $table->string('periodo_control');
             $table->integer('obras_id')->unsigend();
             $table->integer('forma_pago_id')->unsigned();
+            $table->integer('estado_id')->unsigned();
 
             $table->foreign('obras_id')->references('id')->on('obras')->onDelete('cascade');
-            $table->foreign('forma_pago_id')->references('id')->on('formas_pagos')->onDelete('cascade');
+            $table->foreign('forma_pago_id')->references('id')->on('formas_pagos');
+            $table->foreign('estado_id')->references('id')->on('estados');
         });
     }
 

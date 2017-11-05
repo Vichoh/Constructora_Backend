@@ -35,7 +35,8 @@ class EmpresaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Empresa::create($request->all());
+        return ['create' => true];
     }
 
     /**
@@ -46,7 +47,7 @@ class EmpresaController extends Controller
      */
     public function show($id)
     {
-        //
+        return Empresa::find($id);
     }
 
     /**
@@ -57,7 +58,7 @@ class EmpresaController extends Controller
      */
     public function edit($id)
     {
-        //
+        
     }
 
     /**
@@ -69,7 +70,9 @@ class EmpresaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $empresa::find($id);
+        $empresa->update($request->all());
+        return ['update' => true];
     }
 
     /**
@@ -80,6 +83,7 @@ class EmpresaController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Empresa::destroy($id);
+        return ['delete' => true];
     }
 }

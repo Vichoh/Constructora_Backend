@@ -16,15 +16,16 @@ class CreateMaterialesTable extends Migration
         Schema::create('materiales', function (Blueprint $table) {
             $table->increments('id');
             $table->string('nombre');
-            $table->string('marca');
             $table->double('valor');
             $table->integer('stock');
             $table->text('descripcion');
             $table->string('certificacion');
             $table->string('observacion');
             $table->integer('rendimiento_id');
+            $table->integer('marca_id');
 
-            $table->foreign('rendimiento_id')->references('id')->on('rendimientos')->onDelete('cascade');
+            $table->foreign('rendimiento_id')->references('id')->on('rendimientos');
+            $table->foreign('marca_id')->references('id')->on('marcas');
         });
     }
 

@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Forma_Pago;
+use App\Marca;
 
-class Forma_PagoController extends Controller
+class MarcaController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +14,7 @@ class Forma_PagoController extends Controller
      */
     public function index()
     {
-        return Forma_Pago::all();
+        return Marca::all();
     }
 
     /**
@@ -35,8 +35,8 @@ class Forma_PagoController extends Controller
      */
     public function store(Request $request)
     {
-        Forma_Pago::create($request->all();
-        return ['creae' => true];
+        Marca::create($request->all());
+        return ['create' => true];
     }
 
     /**
@@ -47,7 +47,7 @@ class Forma_PagoController extends Controller
      */
     public function show($id)
     {
-        return Forma_Pago::find('$id');
+        return Marca::find($id);
     }
 
     /**
@@ -70,8 +70,8 @@ class Forma_PagoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $forma_pago = Forma_Pago::find($id);
-        $forma_pago->update($request->all());
+        $marca = Marca::find($id);
+        $marca->update($request->all());
         return ['update' => true];
     }
 
@@ -83,7 +83,7 @@ class Forma_PagoController extends Controller
      */
     public function destroy($id)
     {
-        Forma_Pago::destroy($id);
-        return ['delete' => true];
+        Marca::destroy($id);
+        return ['delte' => true];
     }
 }

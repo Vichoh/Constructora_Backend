@@ -36,7 +36,7 @@ Route::group(['middleware' => 'jwt.auth'], function () {
 	Route::apiResource('proveedor', 'ProveedorController');
 	Route::apiResource('rendimiento', 'RendimientoController');
 	Route::apiResource('tipoObra', 'Tipo_ObraController');
-	Route::apiResource('trabajador', 'TrabajadorController');
+	Route::apiResource('trabajadores', 'TrabajadorController');
 	Route::apiResource('trabajadorObra', 'Trabajador_ObraController');
 	Route::apiResource('ubicacion', 'UbicacionController');
 	Route::apiResource('usuario', 'UsuarioController');

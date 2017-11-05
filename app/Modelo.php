@@ -4,9 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Rendimiento extends Model
+class Modelo extends Model
 {
-    protected $table = 'rendimientos';
+    protected $table = 'modelos';
 
     protected $primarykey = 'id';
 
@@ -17,12 +17,4 @@ class Rendimiento extends Model
     public function maquinarias () {
     	return $this->hasMany('App\Maquinaria');
     }
-
-    public function materiales () {
-    	return $this->hasMany('App\Material');
-    }
-
-    public function trabajadores () {
-    	return $this->hasMany('App\Trabajador');
-    } 
 }

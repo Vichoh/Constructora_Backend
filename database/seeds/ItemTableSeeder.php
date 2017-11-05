@@ -12,11 +12,11 @@ class ItemTableSeeder extends Seeder
     public function run()
     {
         DB::table('items')->insert([
-        'detalle' => '15281737-6',
-        'cantidad' => 'Vimac',
-        'total' => 'Viña del Mar',
-        'unidad' => 'Av.Bosques de Montemar 65',
-        'partida_id' => '(56 032) 268 00 99',
+        'detalle' => '1Riego de liga (CSS-1h); c/ suministros',
+        'cantidad' => '2300',
+        'total' => '1495000',
+        'unidad' => 'm2',
+        'partida_id' => '1',
     
         
     }

@@ -15,7 +15,7 @@ class AuthController extends Controller
    try {
       // attempt to verify the credentials and create a token for the user
       if (! $token = JWTAuth::attempt($credentials)) {
-        return response()->json(['error' => 'invalid_credentials'], 401);
+        return response()->json(['error' => 'invalid_credentials'], 404);
       }
     } catch (JWTException $e) {
       // something went wrong whilst attempting to encode the token
@@ -23,7 +23,7 @@ class AuthController extends Controller
     }
  
 
-    return response()->json(['token' => 'Bearer ' . $token]); 
+    return response()->json(['token' => 'Bearer ' . $token, 'usuario' => $request->usuario]); 
   /* $users = Usuario::where('password', '=', $request->password, 'AND', 'usuario', '=', $request->usuario)->first();
 
     if ($users->confirmed == 1) {

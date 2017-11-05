@@ -10,21 +10,29 @@ class Maquinaria extends Model
 
     protected $primarykey = 'id';
 
-    protected $fillable = ['identificacion', 'descripcion', 'marca', 'modelo', 'numero_serie', 'patente', 'anho', 'estado', 'ubicacion_id', 'rendimiento_id'];
+    protected $fillable = ['identificacion', 'descripcion', 'numero_serie', 'patente', 'anho', 'ubicacion_id', 'rendimiento_id', 'modelo_id', 'marca_id'];
 
     public $timestamps = false;
 
 
-    public function ubicaciones () {
+    public function ubicacion () {
     	return $this->belongsTo('App\Ubicacion');
     }
 
-    public function rendimientos () {
+    public function rendimiento () {
     	return $this->belongsTo('App\Rendimiento');
     }
 
-    public function maquinaria_obra () {
+    public function maquinarias_obra () {
         return $this->hasMany('App\Maquinaria_Obra');
+    }
+
+    public function modelo () {
+        return $this->belongsTo('App\Modelo');
+    }
+
+    public function marca () {
+        return $this->belongsTo('App\Marca');
     }
 
 }

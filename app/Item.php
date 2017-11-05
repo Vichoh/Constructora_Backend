@@ -15,19 +15,19 @@ class Item extends Model
     public $timestamps = false;
 
 
-    public function partidas () {
+    public function partida () {
     	return $this->belongsTo('App\Partida');
     }
 
-    public function maquinaria_obra () {
+    public function maquinarias_obra () {
     	return $this->hasMany('App\Maquinaria_Obra');
     }
 
-    public function material_obra () {
+    public function materiales_obra () {
     	return $this->hasMany('App\Material_Obra');
     }
 
-    public function trabajador_obra () {
+    public function trabajadores_obra () {
     	return $this->hasMany('App\Trabajador_Obra');
     }
 }

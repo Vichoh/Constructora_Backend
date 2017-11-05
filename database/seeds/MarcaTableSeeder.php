@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class RendimientoTableSeeder extends Seeder
+class MarcaTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,8 +11,6 @@ class RendimientoTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('rendimientos')->insert([
-        'descripcion' => '10 M2 al dia',
-       ]);
+        //
     }
 }

@@ -15,11 +15,11 @@ class Partida extends Model
     public $timestamps = false;
 
 
-    public function presupuestos () {
+    public function presupuesto () {
     	return $this->belongsTo('App\Presupuesto');
     }
 
-    public function item () {
+    public function items () {
     	return $this->hasMany('App\Item');
     }
 }

@@ -35,7 +35,8 @@ class ItemController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Item::create($request->all());
+        return ['create' => create];
     }
 
     /**
@@ -46,7 +47,7 @@ class ItemController extends Controller
      */
     public function show($id)
     {
-        //
+        return Item::find($id);
     }
 
     /**
@@ -69,7 +70,9 @@ class ItemController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $item = Item::find($id);
+        $item->update($request->all());
+        return. ['update' => true];
     }
 
     /**
@@ -80,6 +83,7 @@ class ItemController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Item::destroy($id);
+        return ['delete' => true];
     }
 }

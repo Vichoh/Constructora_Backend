@@ -14,7 +14,7 @@ class Obra extends Model
 
     public $timestamps = false;
 
-    public function clientes () {
+    public function cliente () {
     	return $this->belongsTo('App\Cliente');
     }
 
@@ -22,7 +22,7 @@ class Obra extends Model
     	return $this->belongsTo('App\Tipo_Obra');
     }
 
-    public function presupuesto () {
+    public function presupuestos () {
     	return $this->hasMany('App\Presupuesto');
     }
 }

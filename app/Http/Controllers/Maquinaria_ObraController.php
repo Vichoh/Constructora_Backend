@@ -35,7 +35,8 @@ class Maquinaria_ObraController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Maquinaria_Obra::create($request->all());
+        return ['create' => true];
     }
 
     /**
@@ -46,7 +47,7 @@ class Maquinaria_ObraController extends Controller
      */
     public function show($id)
     {
-        //
+        return Maquinaria_Obra::find($id);
     }
 
     /**
@@ -69,7 +70,9 @@ class Maquinaria_ObraController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $maquinaria_obra = Maquinaria_Obra::find($id);
+        $maquinaria_obra->update($request->all());
+        return['update' => true];
     }
 
     /**
@@ -80,6 +83,7 @@ class Maquinaria_ObraController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Maquinaria_Obra::destroy($id);
+        return ['delete' => true];
     }
 }

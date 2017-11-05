@@ -10,7 +10,7 @@ class Material extends Model
 
     protected $primarykey = 'id';
 
-    protected $fillable = ['nombre', 'marca', 'valor', 'stock', 'descripcion', 'certificacion', 'observacion', 'rendimiento_id'];
+    protected $fillable = ['nombre',  'valor', 'stock', 'descripcion', 'certificacion', 'observacion', 'rendimiento_id', 'marca_id'];
 
     public $timestamps = false;
     
@@ -26,5 +26,9 @@ class Material extends Model
 
     public function proveedores () {
     	return $this->belongsToMany('App\Proveedor');
+    }
+
+    public function marca () {
+        return $this->belongsTo('App\Marca');
     }
 }

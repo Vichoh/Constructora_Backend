@@ -14,11 +14,11 @@ class Trabajador_Obra extends Model
 
     public $timestamps = false;
 
-    public function trabajadores(){
+    public function trabajador(){
     	return $this->belongsTo('App\Trabajador');
     }
 
-    public function items(){
+    public function item(){
     	return $this->belongsTo('App\Item');
     }
 }

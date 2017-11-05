@@ -4,16 +4,15 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Forma_Pago extends Model
+class Estado extends Model
 {
-    protected $table = 'formas_pagos';
+    protected $table = 'estados';
 
     protected $primarykey = 'id';
 
-    protected $fillable = ['detalle'];
+    protected $fillable = ['descripcion'];
 
     public $timestamps = false;
-    
 
     public function presupuestos () {
     	return $this->hasMany('App\Presupuesto');

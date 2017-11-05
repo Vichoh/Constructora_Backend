@@ -15,12 +15,12 @@ class CreateTrabajadoresTable extends Migration
     {
         Schema::create('trabajadores', function (Blueprint $table) {
             $table->increments('id');
-            $table->double('sueldo');
-            $table->date('fecha_ini');
-            $table->string('estado');
+            $table->double('sueldo')->nullable();
+            $table->date('fecha_ini')->required();
+            $table->string('estado')->required();
             $table->integer('rendimiento_id');
             $table->integer('area_id');
-            $table->integer('persona_id');
+            $table->integer('persona_id')->required()->unique();
 
             $table->foreign('rendimiento_id')->references('id')->on('rendimientos')->onDelete('cascade');
 

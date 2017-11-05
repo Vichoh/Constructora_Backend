@@ -15,7 +15,7 @@ class Tipo_Obra extends Model
     public $timestamps = false;
 
 
-     public function obra () {
+     public function obras () {
     	return $this->hasMany('App\Obra');
     }
 }

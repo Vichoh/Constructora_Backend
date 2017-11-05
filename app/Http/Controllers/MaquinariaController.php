@@ -14,7 +14,8 @@ class MaquinariaController extends Controller
      */
     public function index()
     {
-         return Maquinaria::all();
+         $maquinarias = Maquinaria::with('ubicacion', 'modelo', 'rendimiento', 'marca')->get();
+        return \Response::json($maquinarias, 200); 
     }
 
     /**
@@ -35,7 +36,16 @@ class MaquinariaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+          try {
+
+            Maquinaria::create($request->all());
+            return \Response::json(['created' => true], 201);
+            
+        } catch (Exception $e) {
+            
+            \Log::info('Error al crear Maquinaria' .$e);
+            return \Response::json(['created' => false ], 500);  
+        }
     }
 
     /**
@@ -46,7 +56,24 @@ class MaquinariaController extends Controller
      */
     public function show($id)
     {
-        //
+        try {
+
+            $maquinaria = Maquinaria::findOrFail($id)->with('ubicacion', 'modelo', 'rendimiento', 'marca')->get();
+
+
+              
+
+        } catch (Exception $e) {
+            
+            $datos =[
+                'errors'    => true,
+                'msg'       => $e->getMessage(),
+            ]; 
+            return \Response::json($datos, 404); 
+        }
+
+
+        return \Response::json($maquinaria, 200);
     }
 
     /**
@@ -69,7 +96,29 @@ class MaquinariaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        try{
+
+            $maquinaria = Maquinaria::find($id);
+            
+           
+
+            if (isset($maquinaria)) {
+
+                $maquinaria->update($request->all());
+                return \Response::json($maquinaria, 200);
+
+            }else{
+
+                return \Response::json(['error' => 'No se encontro el maquinaria'], 404);
+
+            }
+        
+        }catch(\Exception $e){
+
+            \Log::info('Error al actualizar el maquinaria'. $e);
+            return \Response::json('Error',500); 
+
+        }
     }
 
     /**
@@ -80,6 +129,15 @@ class MaquinariaController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+
+            Maquinaria::destroy($id);
+            return \Response::json(['deleted' => true], 200);
+            
+        } catch (Exception $e) {
+
+             \Log::info('Error al eliminar la maquinaria'. $e);
+            return \Response::json('Error',500); 
+        }
     }
 }
