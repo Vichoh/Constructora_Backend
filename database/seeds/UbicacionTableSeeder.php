@@ -11,6 +11,10 @@ class UbicacionTableSeeder extends Seeder
      */
     public function run()
     {
-        //
+        DB::table('ubicaciones')->insert([
+        'direccion' => 'Fco Salazar',
+        'fecha_fin' => '2010-10-10',
+         ]);
+    		
     }
 }

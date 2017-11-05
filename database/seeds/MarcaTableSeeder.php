@@ -11,6 +11,9 @@ class MarcaTableSeeder extends Seeder
      */
     public function run()
     {
-        //
+        DB::table('marcas')->insert([
+        'descripcion' => 'Kobelco',
+         ]);
+        
     }
 }

@@ -13,6 +13,6 @@ class Forma_PagoTableSeeder extends Seeder
     {
         DB::table('formas_pagos')->insert([
         'detalle' => 'Anticipo + Pago de saldo a 30 días',
-       
+        ]);
     }
 }

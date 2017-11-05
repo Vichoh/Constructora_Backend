@@ -17,7 +17,7 @@ class ItemTableSeeder extends Seeder
         'total' => '1495000',
         'unidad' => 'm2',
         'partida_id' => '1',
-    
+         ]);
         
     }
 }

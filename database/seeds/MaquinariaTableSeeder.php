@@ -12,15 +12,16 @@ class MaquinariaTableSeeder extends Seeder
     public function run()
     {
         DB::table('maquinarias')->insert([
-        'identificacion' => '15281737-6',
-        'descripcion' => 'Vimac',
-        'marca' => 'Viña del Mar',
-        'modelo' => 'Av.Bosques de Montemar 65',
-        'numero_serie' => '(56 032) 268 00 99',
-        'patente' => '+569 666 66 66',
-        'anho' => '(56 032) 268 00 99',
-        'ubicacion_id' => 'http://www.vimac.cl',
-        'rendimiento' => 'chile',
-       
+        'identificacion' => 'ARRASTRADORES DE TRONCOS',
+        'descripcion' => 'Maquinaria pesada',
+        'marca_id' => 1,
+        'modelo_id' => 1,
+        'numero_serie' => 333333333,
+        'patente' => 'FG 22 22',
+        'anho' => '2010',
+        'ubicacion_id' => 1,
+        'rendimiento_id' => 1,
+         ]);
+        
     }
 }
