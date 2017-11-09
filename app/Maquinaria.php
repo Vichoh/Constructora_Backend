@@ -10,7 +10,7 @@ class Maquinaria extends Model
 
     protected $primarykey = 'id';
 
-    protected $fillable = ['identificacion', 'descripcion', 'numero_serie', 'patente', 'anho', 'ubicacion_id', 'rendimiento_id', 'modelo_id', 'marca_id'];
+    protected $fillable = ['identificacion', 'descripcion', 'numero_serie', 'patente', 'anho', 'ubicacion_id', 'rendimiento_id', 'modelo_id', 'marca_id', 'constructora_id'];
 
     public $timestamps = false;
 
@@ -33,6 +33,10 @@ class Maquinaria extends Model
 
     public function marca () {
         return $this->belongsTo('App\Marca');
+    }
+
+    public function constructora () {
+        return $this->belongsTo('App\Constructora');
     }
 
 }

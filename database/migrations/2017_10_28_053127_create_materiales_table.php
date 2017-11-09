@@ -21,11 +21,13 @@ class CreateMaterialesTable extends Migration
             $table->text('descripcion');
             $table->string('certificacion');
             $table->string('observacion');
-            $table->integer('rendimiento_id');
-            $table->integer('marca_id');
+            $table->integer('rendimiento_id')->unsigned();
+            $table->integer('marca_id')->unsigned();
+            $table->integer('constructora_id')->unsigned();
 
             $table->foreign('rendimiento_id')->references('id')->on('rendimientos');
             $table->foreign('marca_id')->references('id')->on('marcas');
+            $table->foreign('constructora_id')->references('id')->on('constructoras');
         });
     }
 

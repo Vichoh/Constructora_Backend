@@ -21,6 +21,7 @@ class MaquinariaTableSeeder extends Seeder
         'anho' => '2010',
         'ubicacion_id' => 1,
         'rendimiento_id' => 1,
+        'constructora_id' => 1,
          ]);
         
     }

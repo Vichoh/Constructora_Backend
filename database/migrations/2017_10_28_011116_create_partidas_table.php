@@ -22,7 +22,7 @@ class CreatePartidasTable extends Migration
             $table->text('descripcion');
             $table->date('dia_ini');
             $table->date('dia_fin');
-            $table->integer('presupuesto_id');
+            $table->integer('presupuesto_id')->unsigned();
 
             $table->foreign('presupuesto_id')->references('id')->on('presupuestos')->onDelete('cascade');
         });

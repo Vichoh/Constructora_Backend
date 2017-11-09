@@ -45,7 +45,8 @@ class TrabajadorController extends Controller
         try {
 
             Trabajador::create($request->validated());
-            return \Response::json(['created' => true], 200);
+            return \Response::json(['data' => $request], 201)->header('Location' , 'http://localhost:8000/api/trabajadores');
+
             
         } catch (Exception $e) {
             

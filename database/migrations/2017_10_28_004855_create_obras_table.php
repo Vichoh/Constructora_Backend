@@ -23,9 +23,11 @@ class CreateObrasTable extends Migration
             $table->string('ciudad');
             $table->integer('cliente_id')->unsigned();
             $table->integer('tipo_obra_id')->unsigned();
+            $table->integer('constructora_id')->unsigned();
 
             $table->foreign('cliente_id')->references('id')->on('clientes')->onDelete('cascade');
             $table->foreign('tipo_obra_id')->references('id')->on('tipo_obras')->onDelete('cascade');
+            $table->foreign('constructora_id')->references('id')->on('constructoras');
             
         });
     }

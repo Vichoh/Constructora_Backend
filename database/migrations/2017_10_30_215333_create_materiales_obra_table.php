@@ -20,8 +20,10 @@ class CreateMaterialesObraTable extends Migration
             $table->integer('material_id')->unsigned();
             $table->integer('item_id')->unsigned();
 
+
             $table->foreign('material_id')->references('id')->on('materiales');
             $table->foreign('item_id')->references('id')->on('items');
+           
         });
     }
 

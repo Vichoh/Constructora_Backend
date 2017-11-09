@@ -21,7 +21,13 @@ class AuthController extends Controller
       // something went wrong whilst attempting to encode the token
       return response()->json(['error' => 'could_not_create_token'], 500);
     }
- 
+
+/*
+    $nombre = DB::table('empresas')
+                ->join('constructora', 'empresas.id' , '=', 'constructoras.empresa_id')
+                ->join('usuarios', 'constructoras.id', '=', 'usuarios.constructora_id')
+                ->select('empresas.razon_social')
+                ->*/
 
     return response()->json(['token' => 'Bearer ' . $token, 'usuario' => $request->usuario]); 
   /* $users = Usuario::where('password', '=', $request->password, 'AND', 'usuario', '=', $request->usuario)->first();

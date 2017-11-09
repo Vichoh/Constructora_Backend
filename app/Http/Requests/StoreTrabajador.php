@@ -33,7 +33,7 @@ class StoreTrabajador extends FormRequest
             'estado' => 'required',
             'rendimiento_id' => '',
             'area_id' => '',
-            'persona_id' => 'required',
+            'persona_id' => 'required'
          ];
     }
 
@@ -49,7 +49,7 @@ class StoreTrabajador extends FormRequest
             'fecha_ini.required' => 'la fecha de inicio es obligatoria.',
             'fecha_ini.date' => 'la fecha debe tener el formato aaaa-mm-dd',
             'estado.required' => 'EL estado es requerido',
-            'persona_id.required' => 'La persona es requerida',
+            'persona_id.required' => 'La persona es requerida'
 
         ];
     }

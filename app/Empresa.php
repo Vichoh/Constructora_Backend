@@ -23,4 +23,8 @@ class Empresa extends Model
     public function proveedores () {
     	return $this->hasMany('App\Proveedor');
     }
+
+    public function constructoras () {
+        return $this->hasMany('App\Constructora');
+    }
 }

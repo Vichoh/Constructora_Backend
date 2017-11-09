@@ -20,9 +20,9 @@ class CreateUsuariosTable extends Migration
             $table->boolean('confirmed')->default(0);
             $table->string('confirmation_code')->nullable();
             $table->rememberToken();
-            $table->integer('persona_id')->unsigned();
+            $table->integer('constructora_id')->unsigned();
 
-            $table->foreign('persona_id')->references('id')->on('personas')->onDelete('cascade');
+            $table->foreign('constructora_id')->references('id')->on('constructoras')->onDelete('cascade');
             
         });
     }

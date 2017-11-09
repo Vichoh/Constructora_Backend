@@ -19,7 +19,7 @@ class CreateItemsTable extends Migration
             $table->double('cantidad', 8, 2);
             $table->double('total', 8 ,2);
             $table->string('unidad');
-            $table->integer('partida_id');
+            $table->integer('partida_id')->unsigned();
 
             $table->foreign('partida_id')->references('id')->on('partidas')->onDelete('cascade');
         });

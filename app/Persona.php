@@ -18,9 +18,6 @@ class Persona extends Model
     	return $this->hasMany('App\Trabajador');
     } 
 
-    public function usuarios () {
-    	return $this->hasMany('App\User');
-    } 
 
     public function vendedores () {
     	return $this->hasMany('App\Vendedor');

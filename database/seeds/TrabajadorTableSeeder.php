@@ -18,6 +18,7 @@ class TrabajadorTableSeeder extends Seeder
         'rendimiento_id' => 1,
         'area_id' => 1,
         'persona_id' => 1,
+        'constructora_id' => 1,
        ]);
     }
 }

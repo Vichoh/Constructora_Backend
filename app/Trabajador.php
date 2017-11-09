@@ -10,7 +10,7 @@ class Trabajador extends Model
 
     protected $primarykey = 'id';
 
-    protected $fillable = ['sueldo', 'fecha_ini', 'estado', 'persona_id', 'rendimiento_id', 'area_id'];
+    protected $fillable = ['sueldo', 'fecha_ini', 'estado', 'persona_id', 'rendimiento_id', 'area_id', 'constructora_id'];
 
     public $timestamps = false;
 
@@ -30,5 +30,9 @@ class Trabajador extends Model
 
     public function trabajadores_obra () {
         return $this->hasMany('App\Trabajador_Obra');
+    }
+
+    public function constructora () {
+        return $this->belongsTo('App\Constructora');
     }
 }

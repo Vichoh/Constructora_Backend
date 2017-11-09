@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Maquinaria;
+use App\Http\Requests\StoreMaquinaria;
 
 class MaquinariaController extends Controller
 {
@@ -39,7 +40,7 @@ class MaquinariaController extends Controller
           try {
 
             Maquinaria::create($request->all());
-            return \Response::json(['created' => true], 201);
+            return \Response::json(['data' => $request->all()], 201)->header('Location' , 'http://localhost:8000/api/maquinarias');
             
         } catch (Exception $e) {
             
@@ -59,8 +60,6 @@ class MaquinariaController extends Controller
         try {
 
             $maquinaria = Maquinaria::findOrFail($id)->with('ubicacion', 'modelo', 'rendimiento', 'marca')->get();
-
-
               
 
         } catch (Exception $e) {
