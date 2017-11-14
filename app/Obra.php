@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Obra extends Model
 {
-    protected $table = 'personas';
+    protected $table = 'obras';
 
     protected $primarykey = 'id';
 
-    protected $fillable = ['nombre', 'direccion', 'ciudad', 'fecha', 'imagen', 'cliente_id', 'tipo_obra_id'];
+    protected $fillable = ['nombre', 'direccion', 'ciudad', 'fecha', 'imagen', 'cliente_id', 'tipo_obra_id', 'constructora_id'];
 
     public $timestamps = false;
 
@@ -18,8 +18,12 @@ class Obra extends Model
     	return $this->belongsTo('App\Cliente');
     }
 
-    public function tipos_Obra () {
+    public function tipo_obra () {
     	return $this->belongsTo('App\Tipo_Obra');
+    }
+
+    public function constructora () {
+        return $this->belongsTo('App\Constructora');
     }
 
     public function presupuestos () {

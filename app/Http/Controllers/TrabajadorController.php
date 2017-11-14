@@ -9,6 +9,8 @@ use App\Persona;
 use App\Area;
 use App\Rendimiento;
 use App\Http\Requests\StoreTrabajador;
+use JWTAuth;
+use App\Http\Controllers\AuthController;
 
 
 class TrabajadorController extends Controller
@@ -18,9 +20,11 @@ class TrabajadorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(AuthController $auth)
     {
-        $trabajadores = Trabajador::with('persona', 'area', 'rendimiento')->get();
+        $trabajadores = Trabajador::with('persona', 'area', 'rendimiento')
+                                    ->where('constructora_id',$auth->getAuthenticatedUser()->constructora_id)      
+                                    ->get();
         return \Response::json($trabajadores, 200); 
     }
 
@@ -40,9 +44,11 @@ class TrabajadorController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreTrabajador $request)
+    public function store(StoreTrabajador $request, AuthController $auth)
     {
         try {
+
+            $request['constructora_id'] = $auth->getAuthenticatedUser()->constructora_id;
 
             Trabajador::create($request->validated());
             return \Response::json(['data' => $request], 201)->header('Location' , 'http://localhost:8000/api/trabajadores');

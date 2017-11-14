@@ -51,6 +51,8 @@ return array(
     'App\\Http\\Middleware\\TrimStrings' => $baseDir . '/app/Http/Middleware/TrimStrings.php',
     'App\\Http\\Middleware\\TrustProxies' => $baseDir . '/app/Http/Middleware/TrustProxies.php',
     'App\\Http\\Middleware\\VerifyCsrfToken' => $baseDir . '/app/Http/Middleware/VerifyCsrfToken.php',
+    'App\\Http\\Requests\\StoreMaquinaria' => $baseDir . '/app/Http/Requests/StoreMaquinaria.php',
+    'App\\Http\\Requests\\StoreObra' => $baseDir . '/app/Http/Requests/StoreObra.php',
     'App\\Http\\Requests\\StoreTrabajador' => $baseDir . '/app/Http/Requests/StoreTrabajador.php',
     'App\\Item' => $baseDir . '/app/Item.php',
     'App\\Maquinaria' => $baseDir . '/app/Maquinaria.php',

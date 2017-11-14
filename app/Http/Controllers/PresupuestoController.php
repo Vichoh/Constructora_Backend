@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Presupuesto;
+use App\Obra;
+use App\Estado;
+use JWTAuth;
+use App\Http\Controllers\AuthController;
 
 class PresupuestoController extends Controller
 {
@@ -12,9 +16,14 @@ class PresupuestoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(AuthController $auth)
     {
-         return Presupuesto::all();
+        $presupuestos = Presupuesto::select('presupuestos.*')
+        ->with('obra', 'forma_pago', 'estado')
+        ->join('obras' , 'presupuestos.obra_id' , '=', 'obras.id')
+        ->where('constructora_id',$auth->getAuthenticatedUser()->constructora_id)
+        ->get();
+        return \Response::json($presupuestos, 200); 
     }
 
     /**
@@ -35,7 +44,15 @@ class PresupuestoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+
+            Presupuesto::create($request->all());
+            return \Response::json(['data' => $request->all()], 201)->header('Location' , 'http://localhost:8000/api/presupuestos');
+            
+        } catch (Exception $e) {
+            \Log::info('Error al crear Presupuesto' .$e);
+            return \Response::json(['created' => false ], 500); 
+        }
     }
 
     /**
@@ -82,4 +99,11 @@ class PresupuestoController extends Controller
     {
         //
     }
+
+
+    public function presupuestoObra($obra)
+    {
+      $presupuestos = Presupuesto::where('obra_id', $obra); 
+      return \Response::json($presupuestos, 200); 
+  }
 }

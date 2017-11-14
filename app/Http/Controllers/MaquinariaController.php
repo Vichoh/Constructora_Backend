@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Maquinaria;
 use App\Http\Requests\StoreMaquinaria;
+use JWTAuth;
+use App\Http\Controllers\AuthController;
 
 class MaquinariaController extends Controller
 {
@@ -13,9 +15,11 @@ class MaquinariaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(AuthController $auth)
     {
-         $maquinarias = Maquinaria::with('ubicacion', 'modelo', 'rendimiento', 'marca')->get();
+         $maquinarias = Maquinaria::with('ubicacion', 'modelo', 'rendimiento', 'marca')
+                                    ->where('constructora_id',$auth->getAuthenticatedUser()->constructora_id)
+                                    ->get();
         return \Response::json($maquinarias, 200); 
     }
 
@@ -35,12 +39,14 @@ class MaquinariaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreMaquinaria $request, AuthController $auth)
     {
-          try {
+        try {
 
-            Maquinaria::create($request->all());
-            return \Response::json(['data' => $request->all()], 201)->header('Location' , 'http://localhost:8000/api/maquinarias');
+            $request['constructora_id'] = $auth->getAuthenticatedUser()->constructora_id;
+
+            Maquinaria::create($request->validated());
+            return \Response::json(['data' => $request->validated()], 201)->header('Location' , 'http://localhost:8000/api/maquinarias');
             
         } catch (Exception $e) {
             

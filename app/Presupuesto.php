@@ -10,7 +10,7 @@ class Presupuesto extends Model
 
     protected $primarykey = 'id';
 
-    protected $fillable = ['vigencia', 'descripcion', 'fecha_envio', 'clasificacion', 'periodo_control', 'obra_id', 'forma_pago_id', 'estado_id'];
+    protected $fillable = ['vigencia', 'descripcion', 'fecha_envio', 'periodo_control', 'obra_id', 'forma_pago_id', 'estado_id'];
 
     public $timestamps = false;
     
@@ -25,7 +25,7 @@ class Presupuesto extends Model
     }
 
     public function estado () {
-        return $this->belongsTo('App_Estado');
+        return $this->belongsTo('App\Estado');
     }
 
     public function partidas () {

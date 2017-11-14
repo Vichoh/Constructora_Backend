@@ -19,11 +19,11 @@ class CreatePresupuestosTable extends Migration
             $table->text('descripcion');
             $table->date('fecha_envio');
             $table->string('periodo_control');
-            $table->integer('obras_id')->unsigend();
+            $table->integer('obra_id')->unsigend();
             $table->integer('forma_pago_id')->unsigned();
             $table->integer('estado_id')->unsigned();
 
-            $table->foreign('obras_id')->references('id')->on('obras')->onDelete('cascade');
+            $table->foreign('obra_id')->references('id')->on('obras')->onDelete('cascade');
             $table->foreign('forma_pago_id')->references('id')->on('formas_pagos');
             $table->foreign('estado_id')->references('id')->on('estados');
         });

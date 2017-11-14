@@ -2,6 +2,8 @@
 namespace App\Http\Controllers;
 use JWTAuth;
 use App\Usuario;
+use App\Empresa;
+use App\Constructora;
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\Exceptions\JWTException;
 
@@ -22,27 +24,19 @@ class AuthController extends Controller
       return response()->json(['error' => 'could_not_create_token'], 500);
     }
 
-/*
-    $nombre = DB::table('empresas')
-                ->join('constructora', 'empresas.id' , '=', 'constructoras.empresa_id')
+
+    $nombre = Empresa::select('empresas.razon_social')
+                ->join('constructoras', 'empresas.id' , '=', 'constructoras.empresa_id')
                 ->join('usuarios', 'constructoras.id', '=', 'usuarios.constructora_id')
-                ->select('empresas.razon_social')
-                ->*/
+                ->where('usuarios.usuario', $request->usuario)
+                ->get();
 
-    return response()->json(['token' => 'Bearer ' . $token, 'usuario' => $request->usuario]); 
-  /* $users = Usuario::where('password', '=', $request->password, 'AND', 'usuario', '=', $request->usuario)->first();
+    return response()->json(['token' => 'Bearer ' . $token, 'usuario' => $request->usuario, 'razon_social' => $nombre[0]->razon_social]); 
 
-    if ($users->confirmed == 1) {
-      // all good so return the token
-      return response()->json(compact('token'));  
-    } else {
-      return response()->json(['error' => 'Esta cuenta no ha sido activada'], 500);
-    }
-
-*/
 
 
   }
+
 
 
   public function getAuthenticatedUser()
@@ -59,6 +53,6 @@ class AuthController extends Controller
       return response()->json(['token_absent'], $e->getStatusCode());
     }
     // the token is valid and we have found the user via the sub claim
-    return response()->json(compact('user'));
+    return $user;
   }
 }

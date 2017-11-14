@@ -12,7 +12,9 @@ class MarcaTableSeeder extends Seeder
     public function run()
     {
         DB::table('marcas')->insert([
-        'descripcion' => 'Kobelco',
+        ['descripcion' => 'Kobelco',],
+        ['descripcion' => 'SIKA'],
+        ['descripcion' => 'Topex'],
          ]);
         
     }

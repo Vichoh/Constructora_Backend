@@ -11,7 +11,7 @@ class ClienteTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('personas')->insert([
+        DB::table('clientes')->insert([
         'empresa_id' => '1',
       ]);
     }

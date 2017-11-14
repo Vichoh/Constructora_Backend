@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Cliente;
+use App\Empresa;
+use JWTAuth;
+use App\Http\Controllers\AuthController;
 
 class ClienteController extends Controller
 {
@@ -12,9 +15,14 @@ class ClienteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        return Cliente::all();
+    public function index(AuthController $auth)
+    {   
+
+        $clientes = Cliente::select('clientes.*')
+                        ->with('empresa')
+                        ->join('obras', 'clientes.id', '=', 'obras.cliente_id')
+                        ->where('obras.constructora_id', $auth->getAuthenticatedUser()->constructora_id)->get();
+        return $clientes;
     }
 
     /**
@@ -35,8 +43,23 @@ class ClienteController extends Controller
      */
     public function store(Request $request)
     {
-        Cliente::create($request->all());
-        return ['create' => true];
+        
+
+         try {
+
+            Empresa::create($request->all());
+            $empresa = Empresa::where('razon_social' , $request->razon_social)->get();
+            $cliente = new Cliente([
+                'empresa_id' => $empresa[0]->id
+            ]);
+
+            $cliente->save();
+            return \Response::json(['data' => $request->all()], 201)->header('Location' , 'http://localhost:8000/api/clientes');
+            
+        } catch (Exception $e) {
+            \Log::info('Error al crear Cliente' .$e);
+            return \Response::json(['created' => false ], 500); 
+        }
     }
 
     /**

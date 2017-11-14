@@ -15,7 +15,7 @@ class Material extends Model
     public $timestamps = false;
     
 
-    public function rendimientos(){
+    public function rendimiento(){
 
     	return $this->belongsTo('App\Rendimiento');
     }

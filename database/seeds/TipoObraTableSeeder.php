@@ -11,6 +11,11 @@ class TipoObraTableSeeder extends Seeder
      */
     public function run()
     {
-        //
+       DB::table('tipo_obras')->insert([
+       	 ['descripcion' => 'Pavimentacion Asfaltica'],
+       	 ['descripcion' => 'Pavimentacion de Hormigon'],
+       	 ['descripcion' => 'Movimiento de Tierras'],
+       	 ['descripcion' => 'Obras Civiles'],
+      ]);
     }
 }

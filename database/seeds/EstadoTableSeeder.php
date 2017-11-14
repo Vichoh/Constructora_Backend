@@ -11,6 +11,13 @@ class EstadoTableSeeder extends Seeder
      */
     public function run()
     {
-        //
+        DB::table('estados')->insert([
+        ['descripcion' => 'Presentado'],
+
+        ['descripcion' => 'En estudio'],
+
+        ['descripcion' => 'Cancelado'],
+
+        ]);
     }
 }

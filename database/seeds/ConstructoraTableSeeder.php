@@ -12,7 +12,8 @@ class ConstructoraTableSeeder extends Seeder
     public function run()
     {
         DB::table('constructoras')->insert([
-        'empresa_id' => 1,
+        ['empresa_id' => '3',],
+        ['empresa_id' => '4'],
       	]);
     }
 }

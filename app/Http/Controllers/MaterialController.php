@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Material;
 use App\Rendimiento;
 use App\Marca;
+use JWTAuth;
+use App\Http\Controllers\AuthController;
 
 class MaterialController extends Controller
 {
@@ -14,12 +16,13 @@ class MaterialController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(AuthController $auth)
     {
-        $materiales = Trabajador::with('rendimiento', 'marca')->get();
-        return \Response::json($materiales, 200); 
-    }
-
+       $materiales = Material::with('rendimiento', 'marca')
+       ->where('constructora_id',$auth->getAuthenticatedUser()->constructora_id)
+       ->get();
+       return \Response::json($materiales, 200); 
+   }
     /**
      * Show the form for creating a new resource.
      *
@@ -38,43 +41,44 @@ class MaterialController extends Controller
      */
     public function store(Request $request)
     {
-         try {
+       try {
+           $request['constructora_id'] = $auth->getAuthenticatedUser()->constructora_id;
 
-            Material::create($request->all());
-            return \Response::json(['created' => true], 201);
-            
-        } catch (Exception $e) {
-            
-            \Log::info('Error al crear material' .$e);
-            return \Response::json(['created' => false ], 500);  
-        }
+           Material::create($request->all());
+           return \Response::json(['created' => true], 201);
+
+       } catch (Exception $e) {
+
+        \Log::info('Error al crear material' .$e);
+        return \Response::json(['created' => false ], 500);  
     }
+}
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int 
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-         try {
+       try {
 
-            $material = Material::findOrFail($id)->with('rendimiento', 'marca')->get();
-              
-
-        } catch (Exception $e) {
-            
-            $datos =[
-                'errors'    => true,
-                'msg'       => $e->getMessage(),
-            ]; 
-            return \Response::json($datos, 404); 
-        }
+        $material = Material::findOrFail($id)->with('rendimiento', 'marca')->get();
 
 
-        return \Response::json($material, 200);
+    } catch (Exception $e) {
+
+        $datos =[
+            'errors'    => true,
+            'msg'       => $e->getMessage(),
+        ]; 
+        return \Response::json($datos, 404); 
     }
+
+
+    return \Response::json($material, 200);
+}
 
     /**
      * Show the form for editing the specified resource.
@@ -100,7 +104,7 @@ class MaterialController extends Controller
 
             $material = Material::find($id);
             
-           
+
 
             if (isset($material)) {
 
@@ -112,7 +116,7 @@ class MaterialController extends Controller
                 return \Response::json(['error' => 'No se encontro el material'], 404);
 
             }
-        
+
         }catch(\Exception $e){
 
             \Log::info('Error al actualizar el material'. $e);
@@ -136,8 +140,8 @@ class MaterialController extends Controller
             
         } catch (Exception $e) {
 
-             \Log::info('Error al eliminar el material'. $e);
-            return \Response::json('Error',500); 
-        }
-    }
+           \Log::info('Error al eliminar el material'. $e);
+           return \Response::json('Error',500); 
+       }
+   }
 }

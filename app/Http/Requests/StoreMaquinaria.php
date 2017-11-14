@@ -24,15 +24,15 @@ class StoreMaquinaria extends FormRequest
     public function rules()
     {
         return [
-            'identificacion' => 'required|unique:trabajadores',
+            'identificacion' => 'required|unique:maquinarias',
             'descripcion' => 'nullable',
-            'numero_serie' => 'alpha_num|unique',
-            'patente' => 'required|unique:trabajadores',
+            'numero_serie' => 'alpha_num|unique:maquinarias',
+            'patente' => 'required|unique:maquinarias',
             'anho' => 'nullable',
             'ubicacion_id' => 'nullable',
             'rendimiento_id' => 'nullable',
             'modelo_id' => 'nullable',
-            'marca_id' => 'required:trabajadores',
+            'marca_id' => 'required',
             'constructora_id' => 'nullable',
         ];
     }
