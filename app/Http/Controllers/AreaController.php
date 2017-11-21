@@ -14,7 +14,8 @@ class AreaController extends Controller
      */
     public function index()
     {
-        return Area::all();
+        $areas = Area::get();
+        return \Response::json($areas, 200); 
     }
 
     /**
@@ -35,8 +36,15 @@ class AreaController extends Controller
      */
     public function store(Request $request)
     {
-        Area::create($request->all());
-        return ['created' => true];
+        try {
+
+            Area::create($request->all());
+            return \Response::json($request->all(), 201)->header('Location' , 'http://localhost:8000/api/areas');
+            
+        } catch (Exception $e) {
+            \Log::info('Error al crear Area' .$e);
+            return \Response::json(['created' => false ], 500); 
+        }
 
     }
 
@@ -48,7 +56,26 @@ class AreaController extends Controller
      */
     public function show($id)
     {
-        return Area::find($id);
+        try{
+            $area = Area::find($id);
+            
+            
+
+            if (!isset($area)) {
+                $datos = [
+                    'errors' => true,
+                    'msg' => 'No se encontro la Area con ID = ' . $id,
+                ];
+                return \Response::json($datos, 404); 
+            }
+
+            return \Response::json($area, 200);
+
+        }catch(\Exception $e){
+
+            Log::critical("Error {$e->getCode()}, {$e->getLine()}, {$e->getMessage()}");
+            return \Response::json('Error', 500); 
+        }
     }
 
     /**
@@ -71,9 +98,27 @@ class AreaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $area = Area::find($id);
-        $area->update($request->all());
-        return ['update' => true];
+        try{
+
+            $area = Area::find($id);
+
+            if (isset($area)) {
+
+                $area->update($request->all());
+                return \Response::json($area, 200);
+
+            }else{
+
+                return \Response::json(['error' => 'No se encontro el area'], 404);
+
+            }
+
+        }catch(\Exception $e){
+
+            \Log::info('Error al actualizar el area'. $e);
+            return \Response::json('Error',500); 
+
+        }
     }
 
     /**
@@ -84,8 +129,17 @@ class AreaController extends Controller
      */
     public function destroy($id)
     {
-        Area::destroy($id);
-        return ['deleted' => true];
+        try{
+            $area = Area::find($id);
+            if (!isset($area)) {
+                return \Response::json(['Area no existe'],404); 
+            }
+            $area->delete();
+            return \Response::json('Area Eliminada',200);
+        }catch(\Exception $e){
+            \Log::critical("Error: {$e->getCode()}, {$e->getLine()}, {$e->getMessage()}");
+            return \Response::json(['Error'], 500); 
+        }
 
     }
 }

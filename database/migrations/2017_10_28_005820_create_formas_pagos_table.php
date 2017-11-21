@@ -15,7 +15,7 @@ class CreateFormasPagosTable extends Migration
     {
         Schema::create('formas_pagos', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('detalle');
+            $table->string('detalle')->required()->unique();
         });
     }
 

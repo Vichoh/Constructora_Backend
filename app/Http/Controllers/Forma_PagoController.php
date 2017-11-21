@@ -14,7 +14,8 @@ class Forma_PagoController extends Controller
      */
     public function index()
     {
-        return Forma_Pago::all();
+        $pagos = Forma_Pago::get();
+        return \Response::json($pagos, 200);
     }
 
     /**
@@ -35,8 +36,15 @@ class Forma_PagoController extends Controller
      */
     public function store(Request $request)
     {
-        Forma_Pago::create($request->all();
-        return ['creae' => true];
+        try {
+
+            Forma_Pago::create($request->all());
+            return \Response::json($request->all(), 201)->header('Location' , 'http://localhost:8000/api/areas');
+            
+        } catch (Exception $e) {
+            \Log::info('Error al crear Formas de pago' .$e);
+            return \Response::json(['created' => false ], 500); 
+        }
     }
 
     /**
@@ -47,7 +55,24 @@ class Forma_PagoController extends Controller
      */
     public function show($id)
     {
-        return Forma_Pago::find('$id');
+        try{
+            $pago = Forma_Pago::find($id); 
+
+            if (!isset($pago)) {
+                $datos = [
+                    'errors' => true,
+                    'msg' => 'No se encontro la Formas de pago con ID = ' . $id,
+                ];
+                return \Response::json($datos, 404); 
+            }
+
+            return \Response::json($pago, 200);
+
+        }catch(\Exception $e){
+
+            Log::critical("Error {$e->getCode()}, {$e->getLine()}, {$e->getMessage()}");
+            return \Response::json('Error', 500); 
+        }
     }
 
     /**
@@ -70,10 +95,28 @@ class Forma_PagoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $forma_pago = Forma_Pago::find($id);
-        $forma_pago->update($request->all());
-        return ['update' => true];
+      try{
+
+        $pago = Forma_Pago::find($id);
+
+        if (isset($pago)) {
+
+            $pago->update($request->all());
+            return \Response::json($pago, 200);
+
+        }else{
+
+            return \Response::json(['error' => 'No se encontro la forma de pago'], 404);
+
+        }
+
+    }catch(\Exception $e){
+
+        \Log::info('Error al actualizar la forma de pago'. $e);
+        return \Response::json('Error',500); 
+
     }
+}
 
     /**
      * Remove the specified resource from storage.
@@ -83,7 +126,16 @@ class Forma_PagoController extends Controller
      */
     public function destroy($id)
     {
-        Forma_Pago::destroy($id);
-        return ['delete' => true];
+        try{
+            $pago = Forma_Pago::find($id);
+            if (!isset($pago)) {
+                return \Response::json(['Forma de pago no existe'],404); 
+            }
+            $pago->delete();
+            return \Response::json('Forma  de pago Eliminada',200);
+        }catch(\Exception $e){
+            \Log::critical("Error: {$e->getCode()}, {$e->getLine()}, {$e->getMessage()}");
+            return \Response::json(['Error'], 500); 
+        }
     }
 }

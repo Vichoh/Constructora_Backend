@@ -17,11 +17,11 @@ class MaquinariaController extends Controller
      */
     public function index(AuthController $auth)
     {
-         $maquinarias = Maquinaria::with('ubicacion', 'modelo', 'rendimiento', 'marca')
-                                    ->where('constructora_id',$auth->getAuthenticatedUser()->constructora_id)
-                                    ->get();
-        return \Response::json($maquinarias, 200); 
-    }
+     $maquinarias = Maquinaria::with('ubicacion', 'modelo', 'rendimiento', 'marca')
+     ->where('constructora_id',$auth->getAuthenticatedUser()->constructora_id)
+     ->get();
+     return \Response::json($maquinarias, 200); 
+ }
 
     /**
      * Show the form for creating a new resource.
@@ -49,7 +49,7 @@ class MaquinariaController extends Controller
             return \Response::json(['data' => $request->validated()], 201)->header('Location' , 'http://localhost:8000/api/maquinarias');
             
         } catch (Exception $e) {
-            
+
             \Log::info('Error al crear Maquinaria' .$e);
             return \Response::json(['created' => false ], 500);  
         }
@@ -61,24 +61,31 @@ class MaquinariaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id, AuthController $auth)
     {
-        try {
+        try{
+            $maquinaria = Maquinaria::with('ubicacion', 'modelo', 'rendimiento', 'marca')
+            ->where([
+                ['id' ,  $id],
+                ['constructora_id',$auth->getAuthenticatedUser()->constructora_id]
+            ])
+            ->first(); 
 
-            $maquinaria = Maquinaria::findOrFail($id)->with('ubicacion', 'modelo', 'rendimiento', 'marca')->get();
-              
+            if (!isset($maquinaria)) {
+                $datos = [
+                    'errors' => true,
+                    'msg' => 'No se encontro la maquinaria con ID = ' . $id,
+                ];
+                return \Response::json($datos, 404); 
+            }
 
-        } catch (Exception $e) {
-            
-            $datos =[
-                'errors'    => true,
-                'msg'       => $e->getMessage(),
-            ]; 
-            return \Response::json($datos, 404); 
+            return \Response::json($maquinaria, 200);
+
+        }catch(\Exception $e){
+
+            \Log::critical("Error {$e->getCode()}, {$e->getLine()}, {$e->getMessage()}");
+            return \Response::json('Error', 500); 
         }
-
-
-        return \Response::json($maquinaria, 200);
     }
 
     /**
@@ -99,13 +106,17 @@ class MaquinariaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id, AuthController $auth)
     {
         try{
 
-            $maquinaria = Maquinaria::find($id);
+            $maquinaria = Maquinaria::where([
+                ['id' ,  $id],
+                ['constructora_id',$auth->getAuthenticatedUser()->constructora_id]
+            ])
+            ->first(); 
             
-           
+
 
             if (isset($maquinaria)) {
 
@@ -117,7 +128,7 @@ class MaquinariaController extends Controller
                 return \Response::json(['error' => 'No se encontro el maquinaria'], 404);
 
             }
-        
+
         }catch(\Exception $e){
 
             \Log::info('Error al actualizar el maquinaria'. $e);
@@ -132,17 +143,22 @@ class MaquinariaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id, AuthController $auth)
     {
-        try {
-
-            Maquinaria::destroy($id);
-            return \Response::json(['deleted' => true], 200);
-            
-        } catch (Exception $e) {
-
-             \Log::info('Error al eliminar la maquinaria'. $e);
-            return \Response::json('Error',500); 
+        try{
+            $maquinaria = Maquinaria::where([
+                ['id' ,  $id],
+                ['constructora_id',$auth->getAuthenticatedUser()->constructora_id]
+            ])
+            ->first(); 
+            if (!isset($maquinaria)) {
+                return \Response::json(['maquinaria no existe'],404); 
+            }
+            $maquinaria->delete();
+            return \Response::json('maquinaria Eliminada',200);
+        }catch(\Exception $e){
+            \Log::critical("Error: {$e->getCode()}, {$e->getLine()}, {$e->getMessage()}");
+            return \Response::json(['Error'], 500); 
         }
     }
 }

@@ -40,4 +40,6 @@ Route::group(['middleware' => 'jwt.auth'], function () {
 	Route::apiResource('vendedores', 'VendedorController');
 	Route::apiResource('marcas', 'MarcaController');
 
+	Route::get('obras/{obra}/presupuestos' , 'PresupuestoController@presupuestoObra');
+
 });

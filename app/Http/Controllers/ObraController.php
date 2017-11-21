@@ -22,10 +22,10 @@ class ObraController extends Controller
      */
     public function index(AuthController $auth)
     {
-       
+     
         $obras = Obra::with('cliente', 'tipo_obra', 'constructora')
-                        ->where('constructora_id',$auth->getAuthenticatedUser()->constructora_id)
-                        ->get();
+        ->where('constructora_id',$auth->getAuthenticatedUser()->constructora_id)
+        ->get();
         return \Response::json($obras, 200); 
     }
 
@@ -48,7 +48,7 @@ class ObraController extends Controller
     public function store(StoreObra $request, AuthController $auth)
     {
         try {
-           
+         
             $request['constructora_id'] = $auth->getAuthenticatedUser()->constructora_id;
 
             Obra::create($request->validated());
@@ -67,24 +67,30 @@ class ObraController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {
-        try {
+    {try{
+        $obra = Obra::with('cliente', 'tipo_obra', 'constructora')
+        ->where([
+            ['id' ,  $id],
+            ['constructora_id',$auth->getAuthenticatedUser()->constructora_id]
+        ])
+        ->first(); 
 
-            $obra = Obra::findOrFail($id);
-              
-
-        } catch (Exception $e) {
-            
-            $datos =[
-                'errors'    => true,
-                'msg'       => $e->getMessage(),
-            ]; 
+        if (!isset($obra)) {
+            $datos = [
+                'errors' => true,
+                'msg' => 'No se encontro la obra con ID = ' . $id,
+            ];
             return \Response::json($datos, 404); 
         }
 
-
         return \Response::json($obra, 200);
+
+    }catch(\Exception $e){
+
+        \Log::critical("Error {$e->getCode()}, {$e->getLine()}, {$e->getMessage()}");
+        return \Response::json('Error', 500); 
     }
+}
 
     /**
      * Show the form for editing the specified resource.
@@ -104,30 +110,33 @@ class ObraController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id, AuthController $auth)
     {
         try{
 
-            $obra = Obra::find($id);
+         $obra = Obra::where([
+            ['id' ,  $id],
+            ['constructora_id',$auth->getAuthenticatedUser()->constructora_id]
+        ])
 
-            if (isset($obra)) {
+         if (isset($obra)) {
 
-                $obra->update($request->all());
-                return \Response::json($obra, 200);
+            $obra->update($request->all());
+            return \Response::json($obra, 200);
 
-            }else{
+        }else{
 
-                return \Response::json(['error' => 'No se encontro el obra'], 404);
-
-            }
-        
-        }catch(\Exception $e){
-
-            \Log::info('Error al actualizar el obra'. $e);
-            return \Response::json('Error',500); 
+            return \Response::json(['error' => 'No se encontro el obra'], 404);
 
         }
+        
+    }catch(\Exception $e){
+
+        \Log::info('Error al actualizar el obra'. $e);
+        return \Response::json('Error',500); 
+
     }
+}
 
     /**
      * Remove the specified resource from storage.
@@ -135,18 +144,21 @@ class ObraController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id, AuthController $auth)
     {
         try{
-            $obra = Obra::find($id);
-            if (!isset($obra)) {
-                return \Response::json(['Obra no existe'],404); 
-            }
-            $obra->delete();
-            return \Response::json('Usuario Eliminado',200);
-        }catch(\Exception $e){
-            \Log::critical("Error: {$e->getCode()}, {$e->getLine()}, {$e->getMessage()}");
-            return \Response::json(['Error'], 500); 
+         $obra = Obra::where([
+            ['id' ,  $id],
+            ['constructora_id',$auth->getAuthenticatedUser()->constructora_id]
+        ])
+         if (!isset($obra)) {
+            return \Response::json(['Obra no existe'],404); 
         }
+        $obra->delete();
+        return \Response::json('Obra Eliminado',200);
+    }catch(\Exception $e){
+        \Log::critical("Error: {$e->getCode()}, {$e->getLine()}, {$e->getMessage()}");
+        return \Response::json(['Error'], 500); 
     }
+}
 }

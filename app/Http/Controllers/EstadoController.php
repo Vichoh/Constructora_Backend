@@ -35,7 +35,7 @@ class EstadoController extends Controller
      */
     public function store(Request $request)
     {
-        Estado::create::($request->all());
+        Estado::create($request->all());
         return ['create' = true];
     }
 

@@ -22,7 +22,7 @@ class ClienteController extends Controller
                         ->with('empresa')
                         ->join('obras', 'clientes.id', '=', 'obras.cliente_id')
                         ->where('obras.constructora_id', $auth->getAuthenticatedUser()->constructora_id)->get();
-        return $clientes;
+        return \Response::json($clientes, 200);
     }
 
     /**
@@ -45,12 +45,25 @@ class ClienteController extends Controller
     {
         
 
-         try {
+        try {
 
-            Empresa::create($request->all());
-            $empresa = Empresa::where('razon_social' , $request->razon_social)->get();
+            $id = Empresa::insertGetId([
+                'rut' => $request->rut,
+                'razon_social' => $request->razon_social,
+                'ciudad' => $request->ciudad,
+                'direccion' => $request->direccion,
+                'telefono' => $request->telefono,
+                'celular' => $request->celular,
+                'fax' => $request->fax,
+                'email' => $request->email,
+                'web' => $request->web,
+                'pais' => $request->pais,
+                'observacion' => $request->observacion,
+            ]);
+
+;
             $cliente = new Cliente([
-                'empresa_id' => $empresa[0]->id
+                'empresa_id' => $id
             ]);
 
             $cliente->save();
@@ -70,7 +83,26 @@ class ClienteController extends Controller
      */
     public function show($id)
     {
-        return Cliente::find($id);
+        try{
+            $cliente = Cliente::find($id);
+            
+            
+
+            if (!isset($cliente)) {
+                $datos = [
+                    'errors' => true,
+                    'msg' => 'No se encontro el cliente con ID = ' . $id,
+                ];
+                return \Response::json($datos, 404); 
+            }
+
+            return \Response::json($cliente, 200);
+
+        }catch(\Exception $e){
+
+            Log::critical("Error {$e->getCode()}, {$e->getLine()}, {$e->getMessage()}");
+            return \Response::json('Error', 500); 
+        }
     }
 
     /**
@@ -93,9 +125,27 @@ class ClienteController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $cliente = Cliente::find($id);
-        $cliente->update($request->all());
-        return ['update' => true];
+        try{
+
+            $cliente = Cliente::find($id);
+
+            if (isset($cliente)) {
+
+                $cliente->update($request->all());
+                return \Response::json($cliente, 200);
+
+            }else{
+
+                return \Response::json(['error' => 'No se encontro el cliente'], 404);
+
+            }
+        
+        }catch(\Exception $e){
+
+            \Log::info('Error al actualizar el cliente'. $e);
+            return \Response::json('Error',500); 
+
+        }
     }
 
     /**
@@ -106,7 +156,16 @@ class ClienteController extends Controller
      */
     public function destroy($id)
     {
-        Cliente::destroy($id);
-        return ['delete' => true];
+        try{
+            $cliente = Cliente::find($id);
+            if (!isset($cliente)) {
+                return \Response::json(['Cliente no existe'],404); 
+            }
+            $cliente->delete();
+            return \Response::json('Cliente Eliminado',200);
+        }catch(\Exception $e){
+            \Log::critical("Error: {$e->getCode()}, {$e->getLine()}, {$e->getMessage()}");
+            return \Response::json(['Error'], 500); 
+        }
     }
 }

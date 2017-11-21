@@ -129,6 +129,8 @@ class PartidaController extends Controller
         }
     }
 
+
+
     public function partidasPresupuesto ($presupuesto){
         $partidas = Partida::where('presupuesto_id', $presupuesto)->get();
         return \Response::json($partidas, 200); 

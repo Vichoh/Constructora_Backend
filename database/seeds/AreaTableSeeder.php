@@ -12,7 +12,7 @@ class AreaTableSeeder extends Seeder
     public function run()
     {
         DB::table('areas')->insert([
-        'descripcion' => 'operario',
+        ['descripcion' => 'operario',],
 
       ]);
     }

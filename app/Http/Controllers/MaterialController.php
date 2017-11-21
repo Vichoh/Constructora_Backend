@@ -18,11 +18,11 @@ class MaterialController extends Controller
      */
     public function index(AuthController $auth)
     {
-       $materiales = Material::with('rendimiento', 'marca')
-       ->where('constructora_id',$auth->getAuthenticatedUser()->constructora_id)
-       ->get();
-       return \Response::json($materiales, 200); 
-   }
+     $materiales = Material::with('rendimiento', 'marca')
+     ->where('constructora_id',$auth->getAuthenticatedUser()->constructora_id)
+     ->get();
+     return \Response::json($materiales, 200); 
+ }
     /**
      * Show the form for creating a new resource.
      *
@@ -39,20 +39,22 @@ class MaterialController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, AuthController $auth)
     {
-       try {
-           $request['constructora_id'] = $auth->getAuthenticatedUser()->constructora_id;
+     try {
 
-           Material::create($request->all());
-           return \Response::json(['created' => true], 201);
+        $request['constructora_id'] = $auth->getAuthenticatedUser()->constructora_id;
 
-       } catch (Exception $e) {
+        Material::create($request->all());
+        return \Response::json(['data' => $request->all()], 201)->header('Location' , 'http://localhost:8000/api/materiales');
 
-        \Log::info('Error al crear material' .$e);
+    } catch (Exception $e) {
+
+        \Log::info('Error al crear Material' .$e);
         return \Response::json(['created' => false ], 500);  
     }
 }
+
 
     /**
      * Display the specified resource.
@@ -60,24 +62,31 @@ class MaterialController extends Controller
      * @param  int 
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id, AuthController $auth)
     {
-       try {
+      try{
+        $material = Material::with('rendimiento', 'marca')
+        ->where([
+            ['id' ,  $id],
+            ['constructora_id',$auth->getAuthenticatedUser()->constructora_id]
+        ])
+        ->first(); 
 
-        $material = Material::findOrFail($id)->with('rendimiento', 'marca')->get();
+        if (!isset($material)) {
+            $datos = [
+                'errors' => true,
+                'msg' => 'No se encontro la material con ID = ' . $id,
+            ];
+            return \Response::json($datos, 404); 
+        }
 
+        return \Response::json($material, 200);
 
-    } catch (Exception $e) {
+    }catch(\Exception $e){
 
-        $datos =[
-            'errors'    => true,
-            'msg'       => $e->getMessage(),
-        ]; 
-        return \Response::json($datos, 404); 
+        \Log::critical("Error {$e->getCode()}, {$e->getLine()}, {$e->getMessage()}");
+        return \Response::json('Error', 500); 
     }
-
-
-    return \Response::json($material, 200);
 }
 
     /**
@@ -98,11 +107,15 @@ class MaterialController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id, AuthController $auth)
     {
         try{
 
-            $material = Material::find($id);
+            $material = Material::where([
+                ['id' ,  $id],
+                ['constructora_id',$auth->getAuthenticatedUser()->constructora_id]
+            ])
+            ->first(); 
             
 
 
@@ -131,17 +144,23 @@ class MaterialController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id, AuthController $auth)
     {
-        try {
 
-            Material::destroy($id);
-            return \Response::json(['deleted' => true], 200);
-            
-        } catch (Exception $e) {
-
-           \Log::info('Error al eliminar el material'. $e);
-           return \Response::json('Error',500); 
-       }
-   }
+        try{
+            $material = Material::where([
+                ['id' ,  $id],
+                ['constructora_id',$auth->getAuthenticatedUser()->constructora_id]
+            ])
+            ->first(); 
+            if (!isset($maquinaria)) {
+                return \Response::json(['material no existe'],404); 
+            }
+            $material->delete();
+            return \Response::json('material Eliminada',200);
+        }catch(\Exception $e){
+            \Log::critical("Error: {$e->getCode()}, {$e->getLine()}, {$e->getMessage()}");
+            return \Response::json(['Error'], 500); 
+        }
+    }
 }

@@ -14,7 +14,8 @@ class MarcaController extends Controller
      */
     public function index()
     {
-        return Marca::all();
+        $marcas = Marca::get();
+        return \Response::json($marcas, 200); 
     }
 
     /**
@@ -35,8 +36,15 @@ class MarcaController extends Controller
      */
     public function store(Request $request)
     {
-        Marca::create($request->all());
-        return ['create' => true];
+        try {
+
+            Marca::create($request->all());
+            return \Response::json($request->all(), 201)->header('Location' , 'http://localhost:8000/api/marcas');
+            
+        } catch (Exception $e) {
+            \Log::info('Error al crear la Marca' .$e);
+            return \Response::json(['created' => false ], 500); 
+        }
     }
 
     /**
@@ -47,7 +55,26 @@ class MarcaController extends Controller
      */
     public function show($id)
     {
-        return Marca::find($id);
+        try{
+            $marca = Marca::find($id);
+            
+            
+
+            if (!isset($marca)) {
+                $datos = [
+                    'errors' => true,
+                    'msg' => 'No se encontro la marca con ID = ' . $id,
+                ];
+                return \Response::json($datos, 404); 
+            }
+
+            return \Response::json($marca, 200);
+
+        }catch(\Exception $e){
+
+            Log::critical("Error {$e->getCode()}, {$e->getLine()}, {$e->getMessage()}");
+            return \Response::json('Error', 500); 
+        }
     }
 
     /**
@@ -70,10 +97,28 @@ class MarcaController extends Controller
      */
     public function update(Request $request, $id)
     {
+     try{
+
         $marca = Marca::find($id);
-        $marca->update($request->all());
-        return ['update' => true];
+
+        if (isset($marca)) {
+
+            $marca->update($request->all());
+            return \Response::json($marca, 200);
+
+        }else{
+
+            return \Response::json(['error' => 'No se encontro la marca'], 404);
+
+        }
+
+    }catch(\Exception $e){
+
+        \Log::info('Error al actualizar la marca'. $e);
+        return \Response::json('Error',500); 
+
     }
+}
 
     /**
      * Remove the specified resource from storage.
@@ -83,7 +128,16 @@ class MarcaController extends Controller
      */
     public function destroy($id)
     {
-        Marca::destroy($id);
-        return ['delte' => true];
+        try{
+            $marca = Marca::find($id);
+            if (!isset($marca)) {
+                return \Response::json(['Marca no existe'],404); 
+            }
+            $marca->delete();
+            return \Response::json('Marca Eliminada',200);
+        }catch(\Exception $e){
+            \Log::critical("Error: {$e->getCode()}, {$e->getLine()}, {$e->getMessage()}");
+            return \Response::json(['Error'], 500); 
+        }
     }
 }

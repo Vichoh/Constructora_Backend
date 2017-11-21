@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection as Collection;
 use App\Presupuesto;
 use App\Obra;
 use App\Estado;
@@ -103,7 +104,7 @@ class PresupuestoController extends Controller
 
     public function presupuestoObra($obra)
     {
-      $presupuestos = Presupuesto::where('obra_id', $obra); 
-      return \Response::json($presupuestos, 200); 
+      $presupuestos = Presupuesto::where('obra_id', $obra)->with('obra', 'forma_pago', 'estado')->get(); 
+      return \Response::json($collection, 200); 
   }
 }

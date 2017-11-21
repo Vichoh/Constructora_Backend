@@ -12,9 +12,10 @@ class ModeloController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+     public function index()
     {
-        return Modelo::all();
+        $modelos = Modelo::get();
+        return \Response::json($modelos, 200); 
     }
 
     /**
@@ -35,7 +36,16 @@ class ModeloController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+
+            Modelo::create($request->all());
+            return \Response::json($request->all(), 201)->header('Location' , 'http://localhost:8000/api/modelos');
+            
+        } catch (Exception $e) {
+            \Log::info('Error al crear el Modelo' .$e);
+            return \Response::json(['created' => false ], 500); 
+        }
+
     }
 
     /**
@@ -46,7 +56,26 @@ class ModeloController extends Controller
      */
     public function show($id)
     {
-        //
+        try{
+            $modelo = Modelo::find($id);
+            
+            
+
+            if (!isset($modelo)) {
+                $datos = [
+                    'errors' => true,
+                    'msg' => 'No se encontro el Modelo con ID = ' . $id,
+                ];
+                return \Response::json($datos, 404); 
+            }
+
+            return \Response::json($modelo, 200);
+
+        }catch(\Exception $e){
+
+            Log::critical("Error {$e->getCode()}, {$e->getLine()}, {$e->getMessage()}");
+            return \Response::json('Error', 500); 
+        }
     }
 
     /**
@@ -69,7 +98,27 @@ class ModeloController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        try{
+
+            $modelo = Modelo::find($id);
+
+            if (isset($modelo)) {
+
+                $modelo->update($request->all());
+                return \Response::json($modelo, 200);
+
+            }else{
+
+                return \Response::json(['error' => 'No se encontro el modelo'], 404);
+
+            }
+
+        }catch(\Exception $e){
+
+            \Log::info('Error al actualizar el modelo'. $e);
+            return \Response::json('Error',500); 
+
+        }
     }
 
     /**
@@ -80,6 +129,17 @@ class ModeloController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try{
+            $modelo = Modelo::find($id);
+            if (!isset($modelo)) {
+                return \Response::json(['Modelo no existe'],404); 
+            }
+            $modelo->delete();
+            return \Response::json('Modelo Eliminada',200);
+        }catch(\Exception $e){
+            \Log::critical("Error: {$e->getCode()}, {$e->getLine()}, {$e->getMessage()}");
+            return \Response::json(['Error'], 500); 
+        }
+
     }
 }
