@@ -43,10 +43,28 @@ class MaquinariaController extends Controller
     {
         try {
 
-            $request['constructora_id'] = $auth->getAuthenticatedUser()->constructora_id;
+    
 
-            Maquinaria::create($request->validated());
-            return \Response::json(['data' => $request->validated()], 201)->header('Location' , 'http://localhost:8000/api/maquinarias');
+            $id = Maquinaria::insertGetId([
+           
+                'identificacion' => $request->identificacion,
+                'descripcion' => $request->descripcion,
+                'numero_serie' => $request->numero_serie,
+                'patente' => $request->patente,
+                'anho' => $request->anho,
+                'ubicacion_id' => $request->ubicacion_id,
+                'rendimiento_id' => $request->rendimiento_id,
+                'modelo_id' => $request->modelo_id,
+                'marca_id' => $request->marca_id,
+                'constructora_id' => $auth->getAuthenticatedUser()->constructora_id,
+            ]);
+
+            $maquinaria = Maquinaria::where([
+                ['id' , $id]
+            ])->first();
+
+
+            return \Response::json($maquinaria, 201)->header('Location' , 'http://localhost:8000/api/maquinarias');
             
         } catch (Exception $e) {
 

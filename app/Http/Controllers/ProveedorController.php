@@ -14,7 +14,11 @@ class ProveedorController extends Controller
      */
     public function index()
     {
-        return Proveedor::all();
+        $proveedores = Proveedor::select('clientes.*')
+                        ->with('empresa')
+                        ->join('obras', 'clientes.id', '=', 'obras.cliente_id')
+                        ->where('obras.constructora_id', $auth->getAuthenticatedUser()->constructora_id)->get();
+        return \Response::json($clientes, 200);
     }
 
     /**

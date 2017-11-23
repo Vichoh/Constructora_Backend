@@ -14,7 +14,8 @@ class EstadoController extends Controller
      */
     public function index()
     {
-        return Estado::();
+        $estados = Estado::get();
+        return \Response::json($estados, 200);
     }
 
     /**
@@ -35,8 +36,15 @@ class EstadoController extends Controller
      */
     public function store(Request $request)
     {
-        Estado::create($request->all());
-        return ['create' = true];
+        try {
+
+            Estado::create($request->all());
+            return \Response::json($request->all(), 201)->header('Location' , 'http://localhost:8000/api/estados');
+            
+        } catch (Exception $e) {
+            \Log::info('Error al crear estado' .$e);
+            return \Response::json(['created' => false ], 500); 
+        }
     }
 
     /**
@@ -47,7 +55,26 @@ class EstadoController extends Controller
      */
     public function show($id)
     {
-        return Estado::find($id);
+        try{
+            $estado = Estado::find($id);
+            
+            
+
+            if (!isset($estado)) {
+                $datos = [
+                    'errors' => true,
+                    'msg' => 'No se encontro la estado con ID = ' . $id,
+                ];
+                return \Response::json($datos, 404); 
+            }
+
+            return \Response::json($estado, 200);
+
+        }catch(\Exception $e){
+
+            Log::critical("Error {$e->getCode()}, {$e->getLine()}, {$e->getMessage()}");
+            return \Response::json('Error', 500); 
+        }
     }
 
     /**
@@ -70,9 +97,27 @@ class EstadoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $estado = Estado::find($id);
-        $estado->update($request->All());
-        return ['update' => true];
+        try{
+
+            $estado = Estado::find($id);
+
+            if (isset($estado)) {
+
+                $estado->update($request->all());
+                return \Response::json($estado, 200);
+
+            }else{
+
+                return \Response::json(['error' => 'No se encontro el estado'], 404);
+
+            }
+
+        }catch(\Exception $e){
+
+            \Log::info('Error al actualizar el estado'. $e);
+            return \Response::json('Error',500); 
+
+        }
     }
 
     /**
@@ -83,7 +128,16 @@ class EstadoController extends Controller
      */
     public function destroy($id)
     {
-        Estado::destroy($id);
-        return ['delete' => true];
+        try{
+            $estado = Estado::find($id);
+            if (!isset($estado)) {
+                return \Response::json(['estado no existe'],404); 
+            }
+            $area->delete();
+            return \Response::json('Estado Eliminada',200);
+        }catch(\Exception $e){
+            \Log::critical("Error: {$e->getCode()}, {$e->getLine()}, {$e->getMessage()}");
+            return \Response::json(['Error'], 500); 
+        }
     }
 }
