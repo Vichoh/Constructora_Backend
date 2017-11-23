@@ -59,7 +59,8 @@ class MaquinariaController extends Controller
                 'constructora_id' => $auth->getAuthenticatedUser()->constructora_id,
             ]);
 
-            $maquinaria = Maquinaria::where([
+            $maquinaria = Maquinaria::with('ubicacion', 'modelo', 'rendimiento', 'marca')
+            ->where([
                 ['id' , $id]
             ])->first();
 
