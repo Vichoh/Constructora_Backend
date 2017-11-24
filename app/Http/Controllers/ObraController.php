@@ -61,7 +61,7 @@ class ObraController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified resource.  
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -114,28 +114,31 @@ class ObraController extends Controller
     {
         try{
 
-         $obra = Obra::where([
-            ['id' ,  $id],
-            ['constructora_id',$auth->getAuthenticatedUser()->constructora_id]
-        ])
+            $obra = Obra::where([
+                ['id' ,  $id],
+                ['constructora_id' ,$auth->getAuthenticatedUser()->constructora_id],
+            ]);
 
-         if (isset($obra)) {
+            
 
-            $obra->update($request->all());
-            return \Response::json($obra, 200);
+            if (isset($obra)) {
 
-        }else{
+                $obra->update($request->all());
+                return \Response::json($obra, 200);
 
-            return \Response::json(['error' => 'No se encontro el obra'], 404);
+            }else{
+
+                return \Response::json(['error' => 'No se encontro el obra'], 404);
+
+            }
+
+            
+        }catch(\Exception $e){
+
+            \Log::info('Error al actualizar el obra'. $e);
+            return \Response::json('Error',500); 
 
         }
-        
-    }catch(\Exception $e){
-
-        \Log::info('Error al actualizar el obra'. $e);
-        return \Response::json('Error',500); 
-
-    }
 }
 
     /**
@@ -150,7 +153,7 @@ class ObraController extends Controller
          $obra = Obra::where([
             ['id' ,  $id],
             ['constructora_id',$auth->getAuthenticatedUser()->constructora_id]
-        ])
+        ]);
          if (!isset($obra)) {
             return \Response::json(['Obra no existe'],404); 
         }
