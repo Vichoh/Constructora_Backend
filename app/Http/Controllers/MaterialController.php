@@ -43,10 +43,23 @@ class MaterialController extends Controller
     {
      try {
 
-        $request['constructora_id'] = $auth->getAuthenticatedUser()->constructora_id;
+        $id = Material::insertGetId([
+            'nombre' => $request->nombre,
+            'valor' => $request->valor,
+            'stock' => $request->stock,
+            'descripcion' => $request->descripcion,
+            'certificacion' => $request->certificacion,
+            'observacion' => $request->observacion,
+            'rendimiento_id' => $request->rendimiento_id,
+            'marca_id' => $request->marca_id,
+            'constructora_id' => $auth->getAuthenticatedUser()->constructora_id,
+        ]);
 
-        Material::create($request->all());
-        return \Response::json(['data' => $request->all()], 201)->header('Location' , 'http://localhost:8000/api/materiales');
+        $material = Material::where([
+            ['id', $id]
+        ])->first();
+
+        return \Response::json($material, 201)->header('Location' , 'http://localhost:8000/api/materiales');
 
     } catch (Exception $e) {
 
@@ -153,7 +166,7 @@ class MaterialController extends Controller
                 ['constructora_id',$auth->getAuthenticatedUser()->constructora_id]
             ])
             ->first(); 
-            if (!isset($maquinaria)) {
+            if (!isset($material)) {
                 return \Response::json(['material no existe'],404); 
             }
             $material->delete();

@@ -38,8 +38,15 @@ class AreaController extends Controller
     {
         try {
 
-            Area::create($request->all());
-            return \Response::json($request->all(), 201)->header('Location' , 'http://localhost:8000/api/areas');
+            $id = Area::insertGetId([
+                'descripcion' => $request->descripcion,
+            ]);
+            
+            $area = Area::where([
+
+                ['id' , $id],
+            ])->first();
+            return \Response::json($area, 201)->header('Location' , 'http://localhost:8000/api/areas');
             
         } catch (Exception $e) {
             \Log::info('Error al crear Area' .$e);

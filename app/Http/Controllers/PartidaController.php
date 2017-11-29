@@ -44,9 +44,22 @@ class PartidaController extends Controller
     public function store(Request $request)
     {
          try {
+            $id = Partida::insertGetId([
+                'detalle' => $request->detalle,
+                'valor_neto' => $request->valor_neto,
+                'iva' => $request->iva,
+                'total_final' => $request->total_final,
+                'descripcion' => $request->descripcion,
+                'dia_ini' => $request->dia_ini,
+                'dia_fin' => $request->dia_fin,
+                'presupuesto_id' => $request->presupuesto_id,
+            ]);
 
-            Partida::create($request->all());
-            return \Response::json(['data' => $request->all()], 201)->header('Location' , 'http://localhost:8000/api/partidas');
+            $partida = Partida::with('presupuesto')
+            ->where('id' , $id)
+            ->first();
+
+            return \Response::json($partida, 201)->header('Location' , 'http://localhost:8000/api/partidas');
             
         } catch (Exception $e) {
             \Log::info('Error al crear Partida' .$e);
@@ -59,10 +72,35 @@ class PartidaController extends Controller
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
+     arreglar esta wea
+
      */
-    public function show($id)
+    public function show($id, AuthController $auth)
     {
-        //
+        try{
+
+            $partida = Partida::with('presupuesto')
+            ->where([
+                ['id' ,  $id],
+                //['constructora_id',$auth->getAuthenticatedUser()->constructora_id]
+            ])
+            ->first(); 
+
+            if (!isset($partida)) {
+                $datos = [
+                    'errors' => true,
+                    'msg' => 'No se encontro la partida con ID = ' . $id,
+                ];
+                return \Response::json($datos, 404); 
+            }
+
+            return \Response::json($partida, 200);
+
+        }catch(\Exception $e){
+
+            \Log::critical("Error {$e->getCode()}, {$e->getLine()}, {$e->getMessage()}");
+            return \Response::json('Error', 500); 
+        }
     }
 
     /**

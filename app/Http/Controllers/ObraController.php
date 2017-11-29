@@ -49,10 +49,23 @@ class ObraController extends Controller
     {
         try {
          
-            $request['constructora_id'] = $auth->getAuthenticatedUser()->constructora_id;
 
-            Obra::create($request->validated());
-            return \Response::json(['data' => $request->validated()], 201)->header('Location' , 'http://localhost:8000/api/obras');
+            $id = Obra::insertGetId([
+                'nombre' => $request->nombre,
+                'direccion' => $request->direccion,
+                'fecha_ini' => $request->fecha_ini,
+                'fecha_fin' => $request->fecha_fin,
+                'imagen' => $request->imagen,
+                'ciudad' => $request->ciudad,
+                'cliente_id' => $request->cliente_id,
+                'tipo_obra_id' => $request->tipo_obra_id,
+                'constructora_id' => $auth->getAuthenticatedUser()->constructora_id,
+            ]);
+            $obra = Obra::with('cliente', 'tipo_obra', 'constructora')
+            ->where([
+                ['id', $id]
+            ])->first();
+            return \Response::json($obra, 201)->header('Location' , 'http://localhost:8000/api/obras');
             
         } catch (Exception $e) {
             \Log::info('Error al crear Obra' .$e);
@@ -66,8 +79,9 @@ class ObraController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {try{
+    public function show($id, AuthController $auth)
+    {
+        try{
         $obra = Obra::with('cliente', 'tipo_obra', 'constructora')
         ->where([
             ['id' ,  $id],

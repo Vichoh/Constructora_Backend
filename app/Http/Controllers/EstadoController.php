@@ -37,9 +37,15 @@ class EstadoController extends Controller
     public function store(Request $request)
     {
         try {
+            $id = Estado::insertGetId([
+                'descripcion' => $request->descripcion,
+            ]); 
 
-            Estado::create($request->all());
-            return \Response::json($request->all(), 201)->header('Location' , 'http://localhost:8000/api/estados');
+            $estado = Estado::where([
+                ['id', $id]
+            ])->first();
+            
+            return \Response::json($estado, 201)->header('Location' , 'http://localhost:8000/api/estados');
             
         } catch (Exception $e) {
             \Log::info('Error al crear estado' .$e);
@@ -133,7 +139,7 @@ class EstadoController extends Controller
             if (!isset($estado)) {
                 return \Response::json(['estado no existe'],404); 
             }
-            $area->delete();
+            $estado->delete();
             return \Response::json('Estado Eliminada',200);
         }catch(\Exception $e){
             \Log::critical("Error: {$e->getCode()}, {$e->getLine()}, {$e->getMessage()}");

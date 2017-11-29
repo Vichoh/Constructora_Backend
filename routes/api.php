@@ -14,8 +14,10 @@ use Illuminate\Http\Request;
 */
 
 Route::post('/login', 'AuthController@userAuth');
+Route::get('Presupuesto/exportExcel/{presupuesto_id}', 'PresupuestoController@exportPresupuestoExcel');
+Route::get('Presupuesto/exportPDF/{presupuesto_id}', 'PresupuestoController@exportPresupuestoPDF');
 
-Route::group(['middleware' => 'jwt.auth'], function () {
+Route::group(array('prefix' => 'v1' ,'middleware' => ['jwt.auth']), function () {
 	
 	Route::apiResource('areas', 'AreaController');
 	Route::apiResource('clientes', 'ClienteController');
@@ -39,6 +41,8 @@ Route::group(['middleware' => 'jwt.auth'], function () {
 	Route::apiResource('usuarios', 'UsuarioController');
 	Route::apiResource('vendedores', 'VendedorController');
 	Route::apiResource('marcas', 'MarcaController');
+	Route::apiResource('estados', 'EstadoController');
+	Route::apiResource('modelos', 'ModeloController');
 
 	Route::get('obras/{obra}/presupuestos' , 'PresupuestoController@presupuestoObra');
 

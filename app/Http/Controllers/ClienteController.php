@@ -8,6 +8,13 @@ use App\Empresa;
 use JWTAuth;
 use App\Http\Controllers\AuthController;
 
+
+
+/**
+ * @resource Example
+ *
+ * Longer description
+ */
 class ClienteController extends Controller
 {
     /**
@@ -47,7 +54,7 @@ class ClienteController extends Controller
 
         try {
 
-            $id = Empresa::insertGetId([
+            $idEmpresa = Empresa::insertGetId([
                 'rut' => $request->rut,
                 'razon_social' => $request->razon_social,
                 'ciudad' => $request->ciudad,
@@ -61,13 +68,17 @@ class ClienteController extends Controller
                 'observacion' => $request->observacion,
             ]);
 
-;
-            $cliente = new Cliente([
-                'empresa_id' => $id
+            $idCliente = Cliente::insertGetId([
+                'empresa_id' => $idEmpresa,
             ]);
 
-            $cliente->save();
-            return \Response::json(['data' => $request->all()], 201)->header('Location' , 'http://localhost:8000/api/clientes');
+
+            $cliente = Cliente::where([
+                ['id' , $idCliente]
+            ])->first();
+
+            
+            return \Response::json($cliente, 201)->header('Location' , 'http://localhost:8000/api/clientes');
             
         } catch (Exception $e) {
             \Log::info('Error al crear Cliente' .$e);

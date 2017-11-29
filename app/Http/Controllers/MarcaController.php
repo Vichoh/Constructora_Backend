@@ -37,9 +37,15 @@ class MarcaController extends Controller
     public function store(Request $request)
     {
         try {
+            $id = Marca::insertGetId([
+                'descripcion' => $request->descripcion,
+            ]);
 
-            Marca::create($request->all());
-            return \Response::json($request->all(), 201)->header('Location' , 'http://localhost:8000/api/marcas');
+            $marca = Marca::where([
+                ['id', $id]
+            ])->first();
+
+            return \Response::json($marca, 201)->header('Location' , 'http://localhost:8000/api/marcas');
             
         } catch (Exception $e) {
             \Log::info('Error al crear la Marca' .$e);

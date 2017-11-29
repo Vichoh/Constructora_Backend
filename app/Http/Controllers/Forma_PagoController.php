@@ -37,9 +37,14 @@ class Forma_PagoController extends Controller
     public function store(Request $request)
     {
         try {
-
-            Forma_Pago::create($request->all());
-            return \Response::json($request->all(), 201)->header('Location' , 'http://localhost:8000/api/areas');
+            $id = Forma_Pago::insertGetId([
+                'detalle' => $request->detalle,
+            ]);
+           
+            $forma_pago = Forma_Pago::where([
+                ['id', $id],
+            ])->first();
+            return \Response::json($forma_pago, 201)->header('Location' , 'http://localhost:8000/api/areas');
             
         } catch (Exception $e) {
             \Log::info('Error al crear Formas de pago' .$e);

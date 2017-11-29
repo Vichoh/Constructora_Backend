@@ -37,9 +37,15 @@ class ModeloController extends Controller
     public function store(Request $request)
     {
         try {
+            $id = Modelo::insertGetId([
+                'descripcion' => $request->descripcion,
+            ]);
 
-            Modelo::create($request->all());
-            return \Response::json($request->all(), 201)->header('Location' , 'http://localhost:8000/api/modelos');
+            $modelo = Modelo::where([
+                ['id', $id]
+            ])->first();
+
+            return \Response::json($modelo, 201)->header('Location' , 'http://localhost:8000/api/modelos');
             
         } catch (Exception $e) {
             \Log::info('Error al crear el Modelo' .$e);
