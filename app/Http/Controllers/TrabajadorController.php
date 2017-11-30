@@ -11,7 +11,7 @@ use App\Rendimiento;
 use App\Http\Requests\StoreTrabajador;
 use JWTAuth;
 use App\Http\Controllers\AuthController;
-
+use Carbon\Carbon;
 
 class TrabajadorController extends Controller
 {
@@ -22,6 +22,7 @@ class TrabajadorController extends Controller
      */
     public function index(AuthController $auth)
     {
+        
         $trabajadores = Trabajador::with('persona', 'area', 'rendimiento')
                                     ->where('constructora_id',$auth->getAuthenticatedUser()->constructora_id)      
                                     ->get();
@@ -46,18 +47,42 @@ class TrabajadorController extends Controller
      */
     public function store(StoreTrabajador $request, AuthController $auth)
     {
+        if ($request->area_id == null) {
+            
+        }
+
         try {
 
-            $request['constructora_id'] = $auth->getAuthenticatedUser()->constructora_id;
+            $idPersona = Persona::insertGetId([
+                'rut' => $request->rut,
+                'nombre' => $request->nombre,
+                'ciudad' => $request->ciudad,
+                'direccion' => $request->direccion,
+                'telefono' => $request->telefono,
+                'email' => $request->email,
+            ]);
 
-            Trabajador::create($request->validated());
-            return \Response::json(['data' => $request], 201)->header('Location' , 'http://localhost:8000/api/trabajadores');
+            $idTrabajador = Trabajador::insertGetId([
+                'persona_id' => $idPersona,
+                'sueldo' => $request->sueldo,
+                'fecha_ini' => Carbon::createFromDate(2012, 1, 1, 'America/Santiago'),
+                'rendimiento_id' => $request->rendimiento_id,
+                'area_id' => $request->area_id,
+                'estado' => $request->estado,
+                'constructora_id' => $auth->getAuthenticatedUser()->constructora_id,
+            ]);
 
+
+            $trabajador = Trabajador::where([
+                ['id' , $idTrabajador]
+            ])->first();
+
+            
+            return \Response::json($trabajador, 201)->header('Location' , 'http://localhost:8000/api/trabajadores');
             
         } catch (Exception $e) {
-            
             \Log::info('Error al crear Trabajador' .$e);
-            return \Response::json(['created' => false ], 500);  
+            return \Response::json(['created' => false ], 500); 
         }
     }
 

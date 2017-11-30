@@ -11,16 +11,17 @@ use App\Http\Controllers\AuthController;
 
 
 /**
- * @resource Example
+ * @resource Controlador para el cliente
  *
- * Longer description
+ * Controlador para el cliente
  */
 class ClienteController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
+     * etodo que lista todos los clientes de una constructora esta validado por el id de la constructora
+     *  
      * @return \Illuminate\Http\Response
+     * 
      */
     public function index(AuthController $auth)
     {   
@@ -43,7 +44,7 @@ class ClienteController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Metodo store para crear un nuevo Cliente.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -87,7 +88,7 @@ class ClienteController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Obtener los clientes .
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -128,7 +129,7 @@ class ClienteController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Actualizar CLiente.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
@@ -160,7 +161,7 @@ class ClienteController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Eliminar cliente.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response

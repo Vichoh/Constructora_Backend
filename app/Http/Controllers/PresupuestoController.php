@@ -9,6 +9,7 @@ use App\Obra;
 use App\Estado;
 use JWTAuth;
 use App\Http\Controllers\AuthController;
+use Carbon\Carbon;
 
 class PresupuestoController extends Controller
 {
@@ -50,7 +51,7 @@ class PresupuestoController extends Controller
             $id = Presupuesto::insertGetId([
                 'vigencia' => $request->vigencia,
                 'descripcion' => $request->descripcion,
-                'fecha_envio' => $request->fecha_envio,
+                'fecha_envio' => Carbon::createFromDate(2012, 1, 1, 'America/Santiago'),
                 'periodo_control' => $request->periodo_control,
                 'obra_id' => $request->obra_id,
                 'forma_pago_id' => $request->forma_pago_id,

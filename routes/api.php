@@ -30,7 +30,6 @@ Route::group(array('prefix' => 'v1' ,'middleware' => ['jwt.auth']), function () 
 	Route::apiResource('materialesObra', 'Material_ObraController');
 	Route::apiResource('obras', 'ObraController');
 	Route::apiResource('partidas', 'PartidaController');
-	Route::apiResource('personas', 'PersonaController');
 	Route::apiResource('presupuestos', 'PresupuestoController');
 	Route::apiResource('proveedores', 'ProveedorController');
 	Route::apiResource('rendimientos', 'RendimientoController');

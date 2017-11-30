@@ -17,9 +17,9 @@ class CreateTrabajadoresTable extends Migration
             $table->increments('id');
             $table->double('sueldo')->nullable();
             $table->date('fecha_ini')->required();
-            $table->string('estado')->required();
-            $table->integer('rendimiento_id')->unsigned();
-            $table->integer('area_id')->unsigned();
+            $table->string('estado')->nullable();
+            $table->integer('rendimiento_id')->unsigned()->nullable();
+            $table->integer('area_id')->unsigned()->nullable();
             $table->integer('persona_id')->required()->unique()->unsigned();
             $table->integer('constructora_id')->unsigned();
 

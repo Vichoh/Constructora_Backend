@@ -19,6 +19,7 @@ class MaquinariaController extends Controller
     {
      $maquinarias = Maquinaria::with('ubicacion', 'modelo', 'rendimiento', 'marca')
      ->where('constructora_id',$auth->getAuthenticatedUser()->constructora_id)
+     ->orderBy('id')
      ->get();
      return \Response::json($maquinarias, 200); 
  }
@@ -64,12 +65,12 @@ class MaquinariaController extends Controller
                 ['id' , $id]
             ])->first();
 
-
+            Debugbar::info($maquinaria);
             return \Response::json($maquinaria, 201)->header('Location' , 'http://localhost:8000/api/maquinarias');
             
         } catch (Exception $e) {
 
-            \Log::info('Error al crear Maquinaria' .$e);
+            \Debugbar::addThrowable($e);
             return \Response::json(['created' => false ], 500);  
         }
     }

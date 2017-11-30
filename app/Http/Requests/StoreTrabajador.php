@@ -29,11 +29,9 @@ class StoreTrabajador extends FormRequest
     {
         return [
             'sueldo' => 'nullable',
-            'fecha_ini' => 'required|date',
-            'estado' => 'required',
-            'rendimiento_id' => '',
-            'area_id' => '',
-            'persona_id' => 'required'
+            'estado' => 'nullable',
+            'rendimiento_id' => 'nullable',
+            'area_id' => 'nullable',
          ];
     }
 

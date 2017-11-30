@@ -72,7 +72,7 @@ class ItemController extends Controller
     {
         $item = Item::find($id);
         $item->update($request->all());
-        return. ['update' => true];
+        return ['update' => true];
     }
 
     /**
