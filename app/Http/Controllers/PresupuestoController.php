@@ -173,7 +173,7 @@ class PresupuestoController extends Controller
     public function presupuestoObra($obra)
     {
       $presupuestos = Presupuesto::where('obra_id', $obra)->with('obra', 'forma_pago', 'estado')->get(); 
-      return \Response::json($presupuesto, 200); 
+      return \Response::json($presupuestos, 200); 
   }
 
 

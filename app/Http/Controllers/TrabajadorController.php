@@ -47,8 +47,15 @@ class TrabajadorController extends Controller
      */
     public function store(StoreTrabajador $request, AuthController $auth)
     {
-        if ($request->area_id == null) {
-            
+        $area = '';
+        $rendimiento = '';
+
+        if ($request->area_id != null) {
+              $area = $request->area_id;
+        }
+
+        if ($request->rendimiento_id != null) {
+              $rendimiento = $request->rendimiento_id;
         }
 
         try {
@@ -67,13 +74,14 @@ class TrabajadorController extends Controller
                 'sueldo' => $request->sueldo,
                 'fecha_ini' => Carbon::createFromDate(2012, 1, 1, 'America/Santiago'),
                 'rendimiento_id' => $request->rendimiento_id,
-                'area_id' => $request->area_id,
-                'estado' => $request->estado,
+                'area_id' => $area,
+                'estado' => $rendimiento,
                 'constructora_id' => $auth->getAuthenticatedUser()->constructora_id,
             ]);
 
 
-            $trabajador = Trabajador::where([
+            $trabajador = Trabajador::with('persona', 'area', 'rendimiento')
+            ->where([
                 ['id' , $idTrabajador]
             ])->first();
 

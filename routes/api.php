@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::post('/login', 'AuthController@userAuth');
+Route::post('v1/login', 'AuthController@userAuth');
 Route::get('Presupuesto/exportExcel/{presupuesto_id}', 'PresupuestoController@exportPresupuestoExcel');
 Route::get('Presupuesto/exportPDF/{presupuesto_id}', 'PresupuestoController@exportPresupuestoPDF');
 
