@@ -30,5 +30,6 @@ class DatabaseSeeder extends Seeder
         $this->call(PresupuestoTableSeeder::class);
         $this->call(PartidaTableSeeder::class);
         $this->call(MaterialTableSeeder::class);
+        $this->call(ItemTableSeeder::class);
     }
 }

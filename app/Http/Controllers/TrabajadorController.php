@@ -47,8 +47,8 @@ class TrabajadorController extends Controller
      */
     public function store(StoreTrabajador $request, AuthController $auth)
     {
-        $area = '';
-        $rendimiento = '';
+        $area = 0;
+        $rendimiento = 0;
 
         if ($request->area_id != null) {
               $area = $request->area_id;
@@ -100,26 +100,31 @@ class TrabajadorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id, AuthController $auth)
     {
-         try {
+         try{
+            $trabajador = Trabajador::with('persona', 'area', 'rendimiento')
+            ->where([
+                ['id' ,  $id],
+                ['constructora_id',$auth->getAuthenticatedUser()->constructora_id]
+            ])
+            ->first(); 
 
-            $trabajador = Trabajador::findOrFail($id)->with('persona', 'area', 'rendimiento')->get();
+            if (!isset($trabajador)) {
+                $datos = [
+                    'errors' => true,
+                    'msg' => 'No se encontro la trabajador con ID = ' . $id,
+                ];
+                return \Response::json($datos, 404); 
+            }
 
+            return \Response::json($trabajador, 200);
 
-              
+        }catch(\Exception $e){
 
-        } catch (Exception $e) {
-            
-            $datos =[
-                'errors'    => true,
-                'msg'       => $e->getMessage(),
-            ]; 
-            return \Response::json($datos, 404); 
+            \Log::critical("Error {$e->getCode()}, {$e->getLine()}, {$e->getMessage()}");
+            return \Response::json('Error', 500); 
         }
-
-
-        return \Response::json($trabajador, 200);
     }
 
     /**
@@ -140,18 +145,33 @@ class TrabajadorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id, AuthController $auth)
     {
-        
-        try{
 
-            $trabajador = Trabajador::find($id);
+        
+       // try{
+
+            $trabajador = Trabajador::where([
+                ['id' ,  $id],
+                ['constructora_id',$auth->getAuthenticatedUser()->constructora_id]
+            ])
+            ->first(); 
             
-           
+
 
             if (isset($trabajador)) {
 
                 $trabajador->update($request->all());
+                Persona::where('id' , $trabajador->id)
+                ->update([
+                    'nombre' => $request->persona->nombre,
+                    'rut' => $request->persona->rut,
+                    'telefono' => $request->persona->telefono,
+                    'email' => $request->persona->email,
+                    'direccion' => $request->persona->direccion,
+                    'ciudad' => $request->persona->ciudad
+
+                ]);
                 return \Response::json($trabajador, 200);
 
             }else{
@@ -159,13 +179,13 @@ class TrabajadorController extends Controller
                 return \Response::json(['error' => 'No se encontro el trabajador'], 404);
 
             }
-        
-        }catch(\Exception $e){
+
+       /* }catch(\Exception $e){
 
             \Log::info('Error al actualizar el trabajador'. $e);
             return \Response::json('Error',500); 
 
-        }
+        }*/
     }
 
     /**

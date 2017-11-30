@@ -7,6 +7,8 @@ use Illuminate\Support\Collection as Collection;
 use App\Presupuesto;
 use App\Obra;
 use App\Estado;
+use App\Partida;
+use App\Item;
 use JWTAuth;
 use App\Http\Controllers\AuthController;
 use Carbon\Carbon;
@@ -172,8 +174,21 @@ class PresupuestoController extends Controller
 
     public function presupuestoObra($obra)
     {
-      $presupuestos = Presupuesto::with('obra', 'forma_pago', 'estado')->where('obra_id', $obra)->->get(); 
+      $presupuestos = Presupuesto::with('obra', 'forma_pago', 'estado')->where('obra_id', $obra)->get(); 
       return \Response::json($presupuestos, 200); 
+  }
+
+  public function presupuestoPartidaItem($presupuesto_id){
+
+    $presupuesto = Presupuesto::with('obra', 'forma_pago', 'estado')->where('id', $presupuesto_id)->first(); 
+
+    $partidas = Partida::with('items')->where('presupuesto_id', $presupuesto->id)->get();
+
+    $presupuesto->partida = $partidas;
+
+
+    return $presupuesto;
+
   }
 
 

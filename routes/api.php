@@ -16,6 +16,7 @@ use Illuminate\Http\Request;
 Route::post('v1/login', 'AuthController@userAuth');
 Route::get('Presupuesto/exportExcel/{presupuesto_id}', 'PresupuestoController@exportPresupuestoExcel');
 Route::get('Presupuesto/exportPDF/{presupuesto_id}', 'PresupuestoController@exportPresupuestoPDF');
+Route::get('Presupuesto/Partida/Item/{presupuesto_id}', 'PresupuestoController@presupuestoPartidaItem');
 
 Route::group(array('prefix' => 'v1' ,'middleware' => ['jwt.auth']), function () {
 	
